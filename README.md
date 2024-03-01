@@ -1,9 +1,8 @@
 # Hello There
-If you are learning C#, this project is a good follow-along example. I will be updating it regularly until is ended.
+If you are learning C#, this project is an excellent follow-along example. I will be updating it regularly until it is complete.
+What you see in this project is the result of several years of experimentation, R&D, reading, and experience.
 
-What you see in this project is the result of several years of experimentation and R&D. 
-
-Feel free to clone this project, and experiment with it. Ask questions by [Linkedin](https://www.linkedin.com/in/julio-cachay-2a159226b/)
+Feel free to clone this project and experiment with it. Ask me questions by [Linkedin](https://www.linkedin.com/in/julio-cachay-2a159226b/)
 
 # CustomerOrders
 
@@ -23,29 +22,29 @@ To run:
 
 > dotnet run
 
-4. Explore the api: [https://localhost:5118/swagger](https://localhost:5118/swagger)
+4. Explore the API: [https://localhost:5118/swagger](https://localhost:5118/swagger)
 
 ## Run the tests.
 This is a Test Driven Development project. To run the tests:
-1. Go to the root of the repository (where the sln file is located)
+1. Go to the root of the repository (where the .sln file is located)
 
 > dotnet test
 
 ## Overview
-This is an explanation on what this project will be once it is completed.
+This explains what this project will be once it is completed.
 
 ### Stack
 
 - Asp.Net core 8 API.
 
 ## Architecture & Design
-This is a work in progress, what is outlined here is the goal for the final product.
+This is a work in progress. I've shared here the goal for the final product.
 
 ### Stack
-This project is an ASP.Net core 8 Web Api with Controllers.
+This project is an ASP.Net core 8 Web API with Controllers.
 
 ### Domain Driven Design
-A guiding principle for this project is Domain Driven Design.
+A guiding principle for this project is domain-driven design.
 
 ### Vertical Slice Architecture
 This project will use vertical slice architecture, organizing the code by use case.
@@ -54,8 +53,8 @@ This project will use vertical slice architecture, organizing the code by use ca
 Everything in this project is based on Test Driven Development:
 1. We write definitions with no implementations.
 2. We write the tests.
-3. Run the tests and they fail (Red)
-4. Implement and the tests pass (Green)
+3. Run the tests, and they fail (Red)
+4. Implement, and the tests pass (Green)
 5. Look at the code, eliminate repetition, document, clean up (Refactor)
 
 ### Other Technologies
