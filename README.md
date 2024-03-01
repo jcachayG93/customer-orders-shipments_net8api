@@ -4,6 +4,16 @@ What you see in this project is the result of several years of experimentation, 
 
 Feel free to clone this project and experiment with it. Ask me questions by [Linkedin](https://www.linkedin.com/in/julio-cachay-2a159226b/)
 
+# Plan
+- [x] Create Solution with projects.
+- [x] Add a controller with a Ping end-point.
+- [x] Add some value objects.
+- [ ] Implement the Customer, Order and Shipment aggregates
+- [ ] Add the infrasturture layer with a postgres database and Ef Core ORM.
+- [ ] Add integration testing (using a database running in docker)
+- [ ] Implement the application, using one slice per use case with integration tests.
+- [ ] Add an Angular demo UI.
+
 # CustomerOrders
 
 This is a Demo project with two purposes:
