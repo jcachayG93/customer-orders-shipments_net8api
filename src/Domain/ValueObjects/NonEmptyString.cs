@@ -2,6 +2,9 @@
 
 namespace Domain.ValueObjects;
 
+/// <summary>
+/// Represents a text value, for example, a name.
+/// </summary>
 public record NonEmptyString
 {
     public string Value { get; }
@@ -16,11 +19,18 @@ public record NonEmptyString
         Value = value;
     }
 
+    /// <summary>
+    /// Determines if this is equivalent to another, ignoring case and surrounding white space.
+    /// </summary>
     public bool IsEquivalentTo(NonEmptyString other)
     {
         return StringsAreEquivalent(Value, other.Value);
     }
 
+    
+    /// <summary>
+    /// Determines if this is equivalent to another, ignoring case and surrounding white space.
+    /// </summary>
     public bool IsEquivalentTo(string other)
     {
         return StringsAreEquivalent(Value, other);
