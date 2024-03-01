@@ -1,3 +1,10 @@
+# Hello There
+If you are learning C#, this project is a good follow-along example. I will be updating it regularly until is ended.
+
+What you see in this project is the result of several years of experimentation and R&D. 
+
+Feel free to clone this project, and experiment with it. Ask questions by [Linkedin](https://www.linkedin.com/in/julio-cachay-2a159226b/)
+
 # CustomerOrders
 
 This is a Demo project with two purposes:
