@@ -70,4 +70,5 @@ Everything in this project is based on Test Driven Development:
 ### Other Technologies
 - MediatR
 - PostgresDb
+- Ef Core
 - Docker
