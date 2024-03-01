@@ -12,7 +12,7 @@ public class EntityIdentityTests
 
         // ************ ACT ************
 
-        var result = Record.Exception(() =>
+        Exception? result = Record.Exception(() =>
             new EntityIdentity(Guid.Empty));
 
         // ************ ASSERT ************
@@ -27,11 +27,11 @@ public class EntityIdentityTests
     {
         // ************ ARRANGE ************
 
-        var id = Guid.NewGuid();
+        Guid id = Guid.NewGuid();
         
         // ************ ACT ************
 
-        var sut = new EntityIdentity(id);
+        EntityIdentity sut = new EntityIdentity(id);
 
         // ************ ASSERT ************
         
@@ -47,7 +47,7 @@ public class EntityIdentityTests
 
         // ************ ACT ************
 
-        var sut = EntityIdentity.Random;
+        EntityIdentity sut = EntityIdentity.Random;
 
         // ************ ASSERT ************
         
@@ -60,11 +60,11 @@ public class EntityIdentityTests
     {
         // ************ ARRANGE ************
 
-        var sut = new EntityIdentity(Guid.NewGuid());
+        EntityIdentity sut = new EntityIdentity(Guid.NewGuid());
         
         // ************ ACT ************
 
-        var result = sut.ToString();
+        string result = sut.ToString();
         
         // ************ ASSERT ************
 
