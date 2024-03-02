@@ -5,6 +5,11 @@
 /// </summary>
 public class SalesOrderLine
 {
+    // Current version of EF Core requires a parameterless constructor.
+    private SalesOrderLine()
+    {
+        
+    }
     // We use an internal constructor so the child entity can't be created by accident from the application layer
     // but using the methods from the aggregate root (Order) instead
     internal SalesOrderLine(

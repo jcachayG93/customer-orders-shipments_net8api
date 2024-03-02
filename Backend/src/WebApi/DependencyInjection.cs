@@ -28,6 +28,10 @@ public static class DependencyInjection
                     .UseNpgsql(cs);
             });
 
+        services.AddMediatR(c => c.RegisterServicesFromAssemblies(typeof(Program).Assembly));
+
+        services.AddScoped<ISalesOrdersRepository, SalesOrderRepository>();
+
         return services;
     }
 }

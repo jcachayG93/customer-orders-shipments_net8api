@@ -27,10 +27,27 @@ This is a Demo project with two purposes:
 
 Requirements:
 - Net 8 SDK [Download here](https://dotnet.microsoft.com/en-us/download/dotnet/8.0)
+- Docker [Download here](https://www.docker.com/products/docker-desktop/)
+- EF Core CLI tools [More here](https://learn.microsoft.com/en-us/ef/core/cli/dotnet)
 
-To run:
+
+### Start the database:
+This application uses a development database that runs on Docker. To run, go to the
+BackEnd folder (the folder contains a file named docker-compose.yml)
+
+Make sure Docker desktop (or equivalent) is running.
+
+> docker compose up -d
+
+This will create a container named **customer_orders_db_x**, that is
+a postgres database.
+
+Each time you run this app in development mode, the database is recreated (all data is deleted),
+this is by design.
+
+### Run the app:
 1. Clone the repository.
-2. Navigate to: src/WebApi
+2. Navigate to: Backend/src/WebApi
 3. Run (assuming you have the Dotnet SDK installed)
 
 > dotnet run
@@ -39,7 +56,7 @@ To run:
 
 ## Run the tests.
 This is a Test Driven Development project. To run the tests:
-1. Go to the root of the repository (where the .sln file is located)
+1. In the directory that contains the .sln file:
 
 > dotnet test
 
