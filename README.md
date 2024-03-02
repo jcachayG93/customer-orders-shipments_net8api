@@ -8,8 +8,8 @@ Feel free to clone this project and experiment with it. Ask me questions by [Lin
 - [x] Create Solution with projects.
 - [x] Add a controller with a Ping end-point.
 - [x] Add some value objects.
-- [ ] Implement the Order agggregate.
-- [ ] Add the infrasturture layer with a postgres database and Ef Core ORM.
+- [x] Implement the Order agggregate.
+- [ ] Add the infrasturture layer with a postgres database and EF Core ORM.
 - [ ] Add integration testing (using a database running in docker)
 - [ ] Implement the application, using one slice per use case with integration tests.
 - [ ] Add an Angular demo UI.
