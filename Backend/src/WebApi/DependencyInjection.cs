@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System.Reflection;
+using FluentValidation;
+using Microsoft.EntityFrameworkCore;
 using WebApi.Persistence;
 
 namespace WebApi;
@@ -28,7 +30,9 @@ public static class DependencyInjection
                     .UseNpgsql(cs);
             });
 
-        services.AddMediatR(c => c.RegisterServicesFromAssemblies(typeof(Program).Assembly));
+        services.AddMediatR(c => c.RegisterServicesFromAssemblies(Assembly.GetExecutingAssembly()));
+
+        services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
 
         services.AddScoped<ISalesOrdersRepository, SalesOrderRepository>();
 
