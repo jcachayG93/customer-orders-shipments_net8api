@@ -6,7 +6,7 @@ namespace Domain.Entities.OrderAggregate;
 /// <summary>
 ///     A Sales order, represents a purchase done by a customer from the supplier.
 /// </summary>
-public class SalesOrder
+public class SalesOrder : ISalesOrderRoot
 {
     /*
      * this is the backing field for the Lines property, this way the field is a list (class) but the
