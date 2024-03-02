@@ -98,6 +98,19 @@ public class SalesOrder
     }
 
     /// <summary>
+    /// Removes the specified line, ignores if the line does not exist.
+    /// </summary>
+    public void RemoveLine(EntityIdentity lineId)
+    {
+        var match = _lines.Find(l => l.Id == lineId.Value);
+
+        if (match is not null)
+        {
+            _lines.Remove(match);
+        }
+    }
+
+    /// <summary>
     ///     Throws an exception if the entity state is not valid.
     /// </summary>
     private void AssertInvariants()

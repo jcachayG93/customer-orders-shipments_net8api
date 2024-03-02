@@ -102,6 +102,43 @@ public class SalesOrderTests
         Assert.Equal(1250M, result);
     }
 
+    [Fact]
+    public void CanRemoveLine()
+    {
+        // ************ ARRANGE ************
+
+        var sut = CreateSut();
+
+        var lineId = EntityIdentity.Random;
+        
+        sut.AddLine(lineId, new NonEmptyString("Tire 18 inch"),
+            new GreaterThanZeroInteger(4), Money.CreateInDollars(99.99M));
+
+        // ************ ACT ************
+        
+        sut.RemoveLine(lineId);
+
+        // ************ ASSERT ************
+
+        Assert.Empty(sut.Lines);
+    }
+
+    [Fact]
+    public void RemoveLine_WhenLineDoesNotExist_DoesNothing()
+    {
+        // ************ ARRANGE ************
+
+        var sut = CreateSut();
+
+        // ************ ACT ************
+
+        var result = Record.Exception(()=>sut.RemoveLine(EntityIdentity.Random));
+        
+        // ************ ASSERT ************
+
+        Assert.Null(result);
+    }
+
     [Theory]
     [InlineData(true, true)]
     [InlineData(false, false)]
