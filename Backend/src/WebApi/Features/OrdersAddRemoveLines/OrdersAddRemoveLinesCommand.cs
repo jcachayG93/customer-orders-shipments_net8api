@@ -1,4 +1,6 @@
-﻿using MediatR;
+﻿using Domain.Entities.OrderAggregate;
+using Domain.ValueObjects;
+using MediatR;
 using WebApi.Persistence;
 
 namespace WebApi.Features.OrdersAddRemoveLines;
@@ -23,14 +25,68 @@ public class OrdersAddRemoveLinesCommand : IRequest
 
     public class Handler : IRequestHandler<OrdersAddRemoveLinesCommand>
     {
+        private readonly ISalesOrdersRepository _repository;
+
         public Handler(ISalesOrdersRepository repository)
         {
-            
+            _repository = repository;
         }
         
-        public Task Handle(OrdersAddRemoveLinesCommand request, CancellationToken cancellationToken)
+        public async Task Handle(OrdersAddRemoveLinesCommand request, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            // Load the aggregate
+            var aggregate = await _repository.GetByIdAsync(new(request.OrderId));
+
+            if (aggregate is null)
+            {
+                return;
+            }
+            
+            // Delete
+            DeleteAggregateLinesMissingFromTheCommand(request, aggregate);
+
+            // Upsert
+            UpsertLines(request, aggregate);
+            
+            // commit changes
+            await _repository.CommitChangesAsync();
+        }
+
+        private static void UpsertLines(OrdersAddRemoveLinesCommand request, ISalesOrderRoot aggregate)
+        {
+            foreach (var line in request.Lines)
+            {
+                if (aggregate.DoesLineExists(new(line.OrderLineId)))
+                {
+                    // update
+                    aggregate.UpdateLine(
+                        new(line.OrderLineId),
+                        new(line.Product),
+                        new(line.Quantity),
+                        Money.CreateInDollars(line.UnitPrice));
+                }
+                else
+                {
+                    // insert
+                    aggregate.AddLine(
+                        new(line.OrderLineId),
+                        new(line.Product),
+                        new(line.Quantity),
+                        Money.CreateInDollars(line.UnitPrice));
+                }
+            }
+        }
+
+        private static void DeleteAggregateLinesMissingFromTheCommand(OrdersAddRemoveLinesCommand request,
+            ISalesOrderRoot aggregate)
+        {
+            var existingLineIds = aggregate.GetLineIds();
+            var linesInTheAggregateButNotInTheCommand = existingLineIds.Where(lid => request.Lines.All(x =>
+                x.OrderLineId != lid.Value)).ToArray();
+            foreach (var toDeleteId in linesInTheAggregateButNotInTheCommand)
+            {
+                aggregate.RemoveLine(toDeleteId);
+            }
         }
     }
 }
