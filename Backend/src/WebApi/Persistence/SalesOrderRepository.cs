@@ -19,7 +19,7 @@ public class SalesOrderRepository
         await _dbContext.AddAsync(order);   
     }
 
-    public async Task<ISalesOrderRoot?> GetById(EntityIdentity id)
+    public async Task<ISalesOrderRoot?> GetByIdAsync(EntityIdentity id)
     {
         var result = await _dbContext.Orders
             .AsNoTracking()

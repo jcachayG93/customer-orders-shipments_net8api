@@ -22,7 +22,7 @@ public interface ISalesOrdersRepository
     /// <summary>
     /// Gets the aggregate
     /// </summary>
-    Task<ISalesOrderRoot?> GetById(EntityIdentity id);
+    Task<ISalesOrderRoot?> GetByIdAsync(EntityIdentity id);
 
     /// <summary>
     /// Unit of work pattern. We accumulate operations, and they are committed at once when we call this method.
