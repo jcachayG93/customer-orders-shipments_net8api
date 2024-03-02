@@ -14,8 +14,8 @@ Feel free to clone this project and experiment with it. Ask me questions by [Lin
 - [x] Add the infrasturture layer with a postgres database and EF Core ORM.
 - [x] Add integration testing (using an in memory database)
 
-## Features
-- [x] As a sales person, feature-1/I need to be able to create sales orders for my customers.
+## Features (user stories)
+- [x] feature 1: As a sales person, I need to be able to create sales orders for my customers.
   
 # CustomerOrders
 
