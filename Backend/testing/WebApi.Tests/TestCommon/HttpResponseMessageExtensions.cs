@@ -9,4 +9,5 @@ public static class HttpResponseMessageExtensions
             Assert.Fail(response.ReasonPhrase ?? "Response was unsuccessful.");   
         }
     }
+    
 }

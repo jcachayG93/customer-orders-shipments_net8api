@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using WebApi.Features.OrdersCreate;
+using WebApi.Features.OrdersGetOrderList;
 
 namespace WebApi.Controllers;
 
@@ -31,5 +32,15 @@ public class SalesOrdersController : ControllerBase
         await _mediator.Send(command);
 
         return Created();
+    }
+
+    [HttpGet]
+    public async Task<ActionResult<ICollection<SalesOrderLookup>>> GetAll()
+    {
+        var query = new OrdersGetOrderListQuery();
+
+        var result = await _mediator.Send(query);
+
+        return Ok(result);
     }
 }
