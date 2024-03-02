@@ -1,11 +1,17 @@
 ﻿using Domain.Exceptions;
 using Domain.ValueObjects;
+
 #pragma warning disable CS8604 // Possible null reference argument.
 
 namespace Domain.Tests.ValueObjects;
 
 public class NonEmptyString_Tests
 {
+    /*
+     * In test projects, I always specify types explicitly (instead of using var) because a test is also
+     * documentation. When reading a PR in a browser you normally wont see the type next to var.
+     */
+    
     [Theory]
     [InlineData("Hello", false)]
     [InlineData(null, true)]
@@ -42,22 +48,21 @@ public class NonEmptyString_Tests
         NonEmptyString sut = new NonEmptyString("Hello");
 
         // ************ ASSERT ************
-        
-        Assert.Equal("Hello", sut.Value);
 
+        Assert.Equal("Hello", sut.Value);
     }
 
     [Fact]
     public void ToString_ReturnsValue()
     {
         // ************ ARRANGE ************
-        
+
         NonEmptyString sut = new NonEmptyString("Hello");
 
         // ************ ACT ************
 
-        string? result = sut.ToString();
-        
+        string result = sut.ToString();
+
         // ************ ASSERT ************
 
         Assert.Equal("Hello", result);
@@ -82,12 +87,11 @@ public class NonEmptyString_Tests
         bool result = sut1.IsEquivalentTo(sut2);
 
         // ************ ASSERT ************
-        
-        Assert.Equal(shouldBeEquivalent, result);
 
+        Assert.Equal(shouldBeEquivalent, result);
     }
-    
-    
+
+
     [Theory]
     [InlineData("hello", "hello", true)]
     [InlineData("hello", "  hello", true)]
@@ -106,8 +110,7 @@ public class NonEmptyString_Tests
         bool result = sut1.IsEquivalentTo(value2);
 
         // ************ ASSERT ************
-        
-        Assert.Equal(shouldBeEquivalent, result);
 
+        Assert.Equal(shouldBeEquivalent, result);
     }
 }

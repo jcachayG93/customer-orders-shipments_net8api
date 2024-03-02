@@ -5,6 +5,11 @@ namespace Domain.Tests.ValueObjects;
 
 public class Money_Tests
 {
+    /*
+     * In test projects, I always specify types explicitly (instead of using var) because a test is also
+     * documentation. When reading a PR in a browser you normally wont see the type next to var.
+     */
+    
     [Theory]
     [InlineData(-1, true)]
     [InlineData(0, false)]
@@ -16,7 +21,7 @@ public class Money_Tests
 
         // ************ ACT ************
 
-        var result = Record.Exception(() => Money.CreateInDollars(value));
+        Exception? result = Record.Exception(() => Money.CreateInDollars(value));
 
         // ************ ASSERT ************
 
@@ -29,9 +34,8 @@ public class Money_Tests
         {
             Assert.Null(result);
         }
-
     }
-    
+
     [Fact]
     public void CanCreateDollars()
     {
@@ -39,8 +43,8 @@ public class Money_Tests
 
         // ************ ACT ************
 
-        var result = Money.CreateInDollars(100M);
-        
+        Money result = Money.CreateInDollars(100M);
+
         // ************ ASSERT ************
 
         Assert.Equal(100M, result.Amount);
