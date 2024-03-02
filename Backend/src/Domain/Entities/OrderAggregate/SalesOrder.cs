@@ -22,6 +22,12 @@ public class SalesOrder
      */
     private readonly List<SalesOrderLine> _lines = new();
 
+    // Current version of EF Core requires a parameterless constructor.
+    private SalesOrder()
+    {
+        
+    }
+
     public SalesOrder(
         EntityIdentity id)
     {
