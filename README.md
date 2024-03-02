@@ -15,7 +15,7 @@ Feel free to clone this project and experiment with it. Ask me questions by [Lin
 - [x] Add integration testing (using an in memory database)
 
 ## Features
-- [ ] As a sales person, feature-1/I need to be able to create sales orders for my customers.
+- [x] As a sales person, feature-1/I need to be able to create sales orders for my customers.
   
 # CustomerOrders
 
