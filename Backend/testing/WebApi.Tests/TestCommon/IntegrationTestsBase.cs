@@ -54,13 +54,13 @@ public abstract class IntegrationTestsBase : IDisposable
         
         if (oldDbContext is not null)
         {
+            
             services.Remove(oldDbContext);
         }
 
         services.AddScoped(typeof(AppDbContext), _ =>
         {
             var result = new AppDbContext(contextOptions);
-            result.Database.EnsureCreated();
             result.Database.Migrate();
             return result;
         });

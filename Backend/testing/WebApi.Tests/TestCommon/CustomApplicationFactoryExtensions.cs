@@ -31,4 +31,17 @@ public static class CustomApplicationFactoryExtensions
 
         return query(dbContext);
     }
+
+    /// <summary>
+    /// Adds an entity to the underlying database
+    /// </summary>
+    public static void AddEntitiesToDatabase<TEntity>(this CustomApplicationFactory customApplicationFactory,
+        ICollection<TEntity> entities)
+        where TEntity : class
+    {
+        using var scope = customApplicationFactory.GetService(out AppDbContext dbContext);
+        
+        dbContext.AddRange(entities);
+        dbContext.SaveChanges();
+    }
 }
