@@ -74,12 +74,12 @@ public class NonEmptyString_Tests
     {
         // ************ ARRANGE ************
 
-        var sut1 = new NonEmptyString(value1);
-        var sut2 = new NonEmptyString(value2);
+        NonEmptyString sut1 = new NonEmptyString(value1);
+        NonEmptyString sut2 = new NonEmptyString(value2);
 
         // ************ ACT ************
 
-        var result = sut1.IsEquivalentTo(sut2);
+        bool result = sut1.IsEquivalentTo(sut2);
 
         // ************ ASSERT ************
         
@@ -99,11 +99,11 @@ public class NonEmptyString_Tests
     {
         // ************ ARRANGE ************
 
-        var sut1 = new NonEmptyString(value1);
+        NonEmptyString sut1 = new NonEmptyString(value1);
 
         // ************ ACT ************
 
-        var result = sut1.IsEquivalentTo(value2);
+        bool result = sut1.IsEquivalentTo(value2);
 
         // ************ ASSERT ************
         
