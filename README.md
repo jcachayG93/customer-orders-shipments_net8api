@@ -5,15 +5,18 @@ What you see in this project is the result of several years of experimentation, 
 Feel free to clone this project and experiment with it. Ask me questions by [Linkedin](https://www.linkedin.com/in/julio-cachay-2a159226b/)
 
 # Plan
+
+## Preparation (Project setup)
 - [x] Create Solution with projects.
 - [x] Add a controller with a Ping end-point.
 - [x] Add some value objects.
 - [x] Implement the Order agggregate.
-- [ ] Add the infrasturture layer with a postgres database and EF Core ORM.
-- [ ] Add integration testing (using a database running in docker)
-- [ ] Implement the application, using one slice per use case with integration tests.
-- [ ] Add an Angular demo UI.
+- [x] Add the infrasturture layer with a postgres database and EF Core ORM.
+- [x] Add integration testing (using an in memory database)
 
+## Features
+- [] As a sales person, I need to be able to create sales orders for my customers.
+  
 # CustomerOrders
 
 This is a Demo project with two purposes:
