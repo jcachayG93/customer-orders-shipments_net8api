@@ -5,6 +5,11 @@ namespace Domain.Tests.ValueObjects;
 
 public class EntityIdentityTests
 {
+    /*
+     * In test projects, I always specify types explicitly (instead of using var) because a test is also
+     * documentation. When reading a PR in a browser you normally wont see the type next to var.
+     */
+    
     [Fact]
     public void Constructor_AssertsValueNonEmpty()
     {
@@ -19,7 +24,6 @@ public class EntityIdentityTests
 
         Assert.NotNull(result);
         Assert.IsType<InvalidEntityStateException>(result);
-
     }
 
     [Fact]
@@ -28,18 +32,17 @@ public class EntityIdentityTests
         // ************ ARRANGE ************
 
         Guid id = Guid.NewGuid();
-        
+
         // ************ ACT ************
 
         EntityIdentity sut = new EntityIdentity(id);
 
         // ************ ASSERT ************
-        
-        Assert.Equal(id, sut.Value);
 
+        Assert.Equal(id, sut.Value);
     }
 
-    
+
     [Fact]
     public void CanCreateWithRandomValue()
     {
@@ -50,9 +53,8 @@ public class EntityIdentityTests
         EntityIdentity sut = EntityIdentity.Random;
 
         // ************ ASSERT ************
-        
-        Assert.NotEqual(Guid.Empty, sut.Value);
 
+        Assert.NotEqual(Guid.Empty, sut.Value);
     }
 
     [Fact]
@@ -61,11 +63,11 @@ public class EntityIdentityTests
         // ************ ARRANGE ************
 
         EntityIdentity sut = new EntityIdentity(Guid.NewGuid());
-        
+
         // ************ ACT ************
 
         string result = sut.ToString();
-        
+
         // ************ ASSERT ************
 
         Assert.Equal(sut.Value.ToString(), result);

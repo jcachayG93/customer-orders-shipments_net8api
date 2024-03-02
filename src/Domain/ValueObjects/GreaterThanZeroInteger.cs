@@ -3,29 +3,22 @@
 namespace Domain.ValueObjects;
 
 /// <summary>
-///     Represents the identity of an Entity
+///     A positive, greater than zero integer number.
 /// </summary>
-public record EntityIdentity
+public record GreaterThanZeroInteger
 {
-    public EntityIdentity(Guid value)
+    public GreaterThanZeroInteger(int value)
     {
         /*
          * We use objects to encapsulate values so we can guarantee (assert) their correctness. If the value is
          * invalid, an exception will be thrown. This is defensive programming. A method using these value objects will
          * have to make less work (no need to verify)
          */
-        if (value == Guid.Empty)
-            throw new InvalidEntityStateException(
-                "EntityIdentity value can't be empty.");
+        if (value <= 0)
+            throw new InvalidEntityStateException("GreaterThanZeroInteger value must be greater than zero.");
+
         Value = value;
     }
 
-    public Guid Value { get; }
-
-    public static EntityIdentity Random => new(Guid.NewGuid());
-
-    public override string ToString()
-    {
-        return Value.ToString();
-    }
+    public int Value { get; }
 }
