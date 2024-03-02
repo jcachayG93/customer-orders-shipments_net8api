@@ -7,7 +7,7 @@ public class OrdersAddRemoveLinesCommand : IRequest
 {
     public required Guid OrderId { get; init; }
 
-    public required ICollection<OrderLineDto> Line { get; init; }
+    public required ICollection<OrderLineDto> Lines { get; init; }
         = Array.Empty<OrderLineDto>();
 
     public class OrderLineDto
