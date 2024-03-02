@@ -21,6 +21,12 @@ public interface ISalesOrderRoot
     bool DoesLineExists(EntityIdentity lineId);
 
     /// <summary>
+    /// Gets all the line Id values
+    /// </summary>
+    /// <returns></returns>
+    ICollection<EntityIdentity> GetLineIds();
+
+    /// <summary>
     ///     Adds an order line
     /// </summary>
     void AddLine(

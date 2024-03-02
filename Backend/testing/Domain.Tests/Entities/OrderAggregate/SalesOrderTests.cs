@@ -222,6 +222,34 @@ public class SalesOrderTests
 
     }
 
+    [Fact]
+    public void GetLineIds_ReturnsTheIdsForAllLines()
+    {
+        // ************ ARRANGE ************
+
+        var sut = CreateSut();
+        var id1 = EntityIdentity.Random;
+        var id2 = EntityIdentity.Random;
+        
+        sut.AddLine(id1, new NonEmptyString("Dog Food Bag"),
+            new(10), Money.CreateInDollars(100));
+
+        sut.AddLine(id2, new NonEmptyString("Dog Food Bag 2"),
+            new(10), Money.CreateInDollars(100));
+        
+        // ************ ACT ************
+
+        var result = sut.GetLineIds();
+
+        // ************ ASSERT ************
+        
+        Assert.Equal(2, result.Count);
+
+        Assert.Contains(result, r=>r == id1);
+        Assert.Contains(result, r => r == id2);
+
+    }
+
     [Theory]
     [InlineData("Cat food", "Dog foog", false)]
     [InlineData("Cat food", "Cat food", true)]
