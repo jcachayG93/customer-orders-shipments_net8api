@@ -25,9 +25,9 @@ public class SalesOrderLine
 
     public string Product { get; private set; }
 
-    public int Quantity { get; }
+    public int Quantity { get; private set; }
 
-    public decimal UnitPrice { get; }
+    public decimal UnitPrice { get; private set; }
 
     public decimal Total => Quantity * UnitPrice;
 }
