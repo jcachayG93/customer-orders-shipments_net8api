@@ -62,6 +62,12 @@ public class SalesOrder : ISalesOrderRoot
             l.Id == lineId.Value);
     }
 
+    public ICollection<EntityIdentity> GetLineIds()
+    {
+        return _lines.Select(l =>
+            new EntityIdentity(l.Id)).ToArray();
+    }
+
     public decimal Total => _lines.Sum(x => x.Total);
 
     /*
