@@ -42,6 +42,8 @@ public class SalesOrderTests
 
         EntityIdentity lineId = EntityIdentity.Random;
 
+        sut.AssertInvariantsWasCalled = false;
+
         // ************ ACT ************
 
         sut.AddLine(lineId, new NonEmptyString("Dog Food Bag"),
@@ -103,7 +105,7 @@ public class SalesOrderTests
     }
 
     [Fact]
-    public void CanRemoveLine()
+    public void RemoveLine_RemovesLine_AssertsInvariants()
     {
         // ************ ARRANGE ************
 
@@ -114,6 +116,8 @@ public class SalesOrderTests
         sut.AddLine(lineId, new NonEmptyString("Tire 18 inch"),
             new GreaterThanZeroInteger(4), Money.CreateInDollars(99.99M));
 
+        sut.AssertInvariantsWasCalled = false;
+
         // ************ ACT ************
         
         sut.RemoveLine(lineId);
@@ -121,6 +125,7 @@ public class SalesOrderTests
         // ************ ASSERT ************
 
         Assert.Empty(sut.Lines);
+        Assert.True(sut.AssertInvariantsWasCalled);
     }
 
     [Fact]
@@ -137,6 +142,58 @@ public class SalesOrderTests
         // ************ ASSERT ************
 
         Assert.Null(result);
+    }
+
+    [Fact]
+    public void UpdateLine_UpdatesLine_AssertsInvariants()
+    {
+        // ************ ARRANGE ************
+
+        var sut = CreateSut();
+        var lineId = EntityIdentity.Random;
+        
+        sut.AddLine(lineId, new NonEmptyString("Bolts"),new(1000),
+            Money.CreateInDollars(0.11M));
+
+        sut.AssertInvariantsWasCalled = false;
+
+        // ************ ACT ************
+        
+        sut.UpdateLine(lineId, new NonEmptyString("Large Bolts"), new(1110),
+            Money.CreateInDollars(0.16M));
+
+        // ************ ASSERT ************
+
+        var result = sut.Lines.First();
+        
+        Assert.Equal("Large Bolts", result.Product);
+        Assert.Equal(1110, result.Quantity);
+        Assert.Equal(0.16M, result.UnitPrice);
+
+        Assert.True(sut.AssertInvariantsWasCalled);
+    }
+
+    [Fact]
+    public void UpdateLine_WhenLineDoesNotExist_ThrowsException()
+    {
+        /*
+         * Trying to update a line that does not exist is not an idempotent operation, it is actually
+         * some kind of error, probably a user error.
+         */
+        // ************ ARRANGE ************
+
+        var sut = CreateSut();
+
+        // ************ ACT ************
+
+        var result = Record.Exception(()=>sut.UpdateLine(EntityIdentity.Random,
+            new("Bolt"), new(300), Money.CreateInDollars(0.10M)));
+        
+        // ************ ASSERT ************
+
+        Assert.NotNull(result);
+        Assert.IsType<LineNotFoundException>(result);
+
     }
 
     [Theory]

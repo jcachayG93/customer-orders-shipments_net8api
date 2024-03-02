@@ -73,7 +73,7 @@ public class SalesOrder
     /// <summary>
     ///     True when AssertEntityStateIsValid was called.
     /// </summary>
-    public bool AssertInvariantsWasCalled { get; private set; }
+    public bool AssertInvariantsWasCalled { get; set; }
 
 
     /// <summary>
@@ -107,9 +107,30 @@ public class SalesOrder
         if (match is not null)
         {
             _lines.Remove(match);
+            
+            AssertInvariants();
         }
     }
 
+    /// <summary>
+    /// Updates an existing line. Ignores when the line does not exist.
+    /// </summary>
+    public void UpdateLine(EntityIdentity lineId, NonEmptyString product, GreaterThanZeroInteger quantity,
+        Money unitPrice)
+    {
+        var line = _lines.FirstOrDefault(l =>
+            l.Id == lineId.Value);
+
+        if (line is null)
+        {
+            throw new LineNotFoundException(Id, lineId.Value);
+        }
+
+        line.Product = product.Value;
+        line.UnitPrice = unitPrice.Amount;
+        line.Quantity = quantity.Value;
+        AssertInvariants();
+    }
     /// <summary>
     ///     Throws an exception if the entity state is not valid.
     /// </summary>
