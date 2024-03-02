@@ -14,6 +14,7 @@ public class SalesOrderTests
     {
         return new SalesOrder(EntityIdentity.Random);
     }
+    
 
     [Fact]
     public void CreateOrder_InitializesOrder_AssertsInvariants()
@@ -99,6 +100,32 @@ public class SalesOrderTests
         // ************ ASSERT ************
 
         Assert.Equal(1250M, result);
+    }
+
+    [Theory]
+    [InlineData(true, true)]
+    [InlineData(false, false)]
+    public void DoesLineExists_TrueWhenLineExists(
+        bool lineExists, bool expectedResult)
+    {
+        // ************ ARRANGE ************
+
+        var sut = CreateSut();
+
+        var existingLineId = EntityIdentity.Random;
+        var queryLineId = lineExists ? existingLineId : EntityIdentity.Random;
+        
+        sut.AddLine(existingLineId, new NonEmptyString("Dog Food Bag"),
+            new(10), Money.CreateInDollars(100));
+
+        // ************ ACT ************
+
+        var result = sut.DoesLineExists(queryLineId);
+
+        // ************ ASSERT ************
+        
+        Assert.Equal(expectedResult, result);
+
     }
 
     [Theory]

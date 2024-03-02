@@ -53,6 +53,15 @@ public class SalesOrder
 
     public ICollection<SalesOrderLine> Lines => _lines;
 
+    /// <summary>
+    /// Determines if a line with the specified Id exists.
+    /// </summary>
+    public bool DoesLineExists(EntityIdentity lineId)
+    {
+        return _lines.Any(l =>
+            l.Id == lineId.Value);
+    }
+
     public decimal Total => _lines.Sum(x => x.Total);
 
     /*
