@@ -1,4 +1,5 @@
 ﻿using Domain.Entities.OrderAggregate;
+using Domain.ValueObjects;
 
 namespace WebApi.Persistence;
 
@@ -17,6 +18,11 @@ public interface ISalesOrdersRepository
     /// <param name="order"></param>
     /// <returns></returns>
     Task AddAsync(SalesOrder order);
+
+    /// <summary>
+    /// Gets the aggregate
+    /// </summary>
+    Task<ISalesOrderRoot?> GetByIdAsync(EntityIdentity id);
 
     /// <summary>
     /// Unit of work pattern. We accumulate operations, and they are committed at once when we call this method.

@@ -23,11 +23,16 @@ public class SalesOrderLine
 
     public Guid Id { get; private set; }
 
-    public string Product { get; private set; }
+    /*
+     * Some properties have internal setters, so they can be changed by other classes within the Domain project (assembly),
+     * this is not perfect but is simple. The only one that should change the SalesOrderLine values is the SalesOrder aggregate,
+     * so we expect developers working in the domain project to be knowledgeable about Domain Driven Design tactics.
+     */
+    public string Product { get; internal set; }
 
-    public int Quantity { get; private set; }
+    public int Quantity { get; internal set; }
 
-    public decimal UnitPrice { get; private set; }
+    public decimal UnitPrice { get; internal set; }
 
     public decimal Total => Quantity * UnitPrice;
 }

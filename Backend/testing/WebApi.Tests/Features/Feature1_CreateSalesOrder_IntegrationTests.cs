@@ -37,7 +37,7 @@ public class Feature1_CreateSalesOrder_IntegrationTests : IntegrationTestsBase
         // ************ ASSERT ************
 
         var entities = _factory.GetEntities(db =>
-            db.Orders.AsNoTracking().ToList());
+            db.SalesOrders.AsNoTracking().ToList());
 
         Assert.Single(entities);
         Assert.Contains(entities, e =>
@@ -68,7 +68,7 @@ public class Feature1_CreateSalesOrder_IntegrationTests : IntegrationTestsBase
         // ************ ASSERT ************
 
         var entities = _factory.GetEntities(db =>
-            db.Orders.AsNoTracking().ToList());
+            db.SalesOrders.AsNoTracking().ToList());
 
         Assert.Single(entities);
 

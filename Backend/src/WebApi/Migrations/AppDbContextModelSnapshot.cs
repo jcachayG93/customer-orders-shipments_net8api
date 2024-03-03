@@ -32,13 +32,12 @@ namespace WebApi.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Orders");
+                    b.ToTable("SalesOrders");
                 });
 
             modelBuilder.Entity("Domain.Entities.OrderAggregate.SalesOrderLine", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
                     b.Property<string>("Product")
@@ -48,7 +47,7 @@ namespace WebApi.Migrations
                     b.Property<int>("Quantity")
                         .HasColumnType("integer");
 
-                    b.Property<Guid?>("SalesOrderId")
+                    b.Property<Guid>("SalesOrderId")
                         .HasColumnType("uuid");
 
                     b.Property<decimal>("UnitPrice")
@@ -64,13 +63,15 @@ namespace WebApi.Migrations
             modelBuilder.Entity("Domain.Entities.OrderAggregate.SalesOrderLine", b =>
                 {
                     b.HasOne("Domain.Entities.OrderAggregate.SalesOrder", null)
-                        .WithMany("Lines")
-                        .HasForeignKey("SalesOrderId");
+                        .WithMany("SalesOrderLines")
+                        .HasForeignKey("SalesOrderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Domain.Entities.OrderAggregate.SalesOrder", b =>
                 {
-                    b.Navigation("Lines");
+                    b.Navigation("SalesOrderLines");
                 });
 #pragma warning restore 612, 618
         }

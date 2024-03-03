@@ -6,21 +6,9 @@ namespace Domain.Entities.OrderAggregate;
 /// <summary>
 ///     A Sales order, represents a purchase done by a customer from the supplier.
 /// </summary>
-public class SalesOrder
+public class SalesOrder : ISalesOrderRoot
 {
-    /*
-     * this is the backing field for the Lines property, this way the field is a list (class) but the
-     * client will read the Lines property, which is an abstraction, enforcing: Depend upon abstractions, not upon concretions.
-     * Why? From inside the class, the List has many handy methods we can use to modify it, but we would not like to allow an external
-     * client doing so, because an aggregate must be altered by its root methods only.
-     *
-     * From a clients perspective, they receive a collection, and they can use it as any concrete type they need, they can read
-     * but can't modify.
-     *
-     * Now, this is not 100% true. They could still cast the ICollection to a List, but that requires an extra effort which would not
-     * be accidental. To me, the idea, is to prevent errors.
-     */
-    private readonly List<SalesOrderLine> _lines = new();
+    
 
     // Current version of EF Core requires a parameterless constructor.
     private SalesOrder()
@@ -51,9 +39,24 @@ public class SalesOrder
      */
     public Guid Id { get; private set; }
 
-    public ICollection<SalesOrderLine> Lines => _lines;
+    public IEnumerable<SalesOrderLine> SalesOrderLines { get; private set; } = new List<SalesOrderLine>();
 
-    public decimal Total => _lines.Sum(x => x.Total);
+    /// <summary>
+    /// Determines if a line with the specified Id exists.
+    /// </summary>
+    public bool DoesLineExists(EntityIdentity lineId)
+    {
+        return SalesOrderLines.Any(l =>
+            l.Id == lineId.Value);
+    }
+
+    public ICollection<EntityIdentity> GetLineIds()
+    {
+        return SalesOrderLines.Select(l =>
+            new EntityIdentity(l.Id)).ToArray();
+    }
+
+    public decimal Total => SalesOrderLines.Sum(x => x.Total);
 
     /*
      * Here I have a property that is used mainly for testing. In general that is not a good idea, but there is a cost
@@ -64,7 +67,7 @@ public class SalesOrder
     /// <summary>
     ///     True when AssertEntityStateIsValid was called.
     /// </summary>
-    public bool AssertInvariantsWasCalled { get; private set; }
+    public bool AssertInvariantsWasCalled { get; set; }
 
 
     /// <summary>
@@ -82,12 +85,46 @@ public class SalesOrder
 
         var line = new SalesOrderLine(
             id.Value, productName.Value, quantity.Value, unitPrice.Amount);
-
-        _lines.Add(line);
+        
+        ((SalesOrderLines as List<SalesOrderLine>)!).Add(line);
 
         AssertInvariants();
     }
 
+    /// <summary>
+    /// Removes the specified line, ignores if the line does not exist.
+    /// </summary>
+    public void RemoveLine(EntityIdentity lineId)
+    {
+        var match = SalesOrderLines.FirstOrDefault(l => l.Id == lineId.Value);
+
+        if (match is not null)
+        {
+            ((SalesOrderLines as List<SalesOrderLine>)!).Remove(match);
+            
+            AssertInvariants();
+        }
+    }
+
+    /// <summary>
+    /// Updates an existing line. Ignores when the line does not exist.
+    /// </summary>
+    public void UpdateLine(EntityIdentity lineId, NonEmptyString product, GreaterThanZeroInteger quantity,
+        Money unitPrice)
+    {
+        var line = SalesOrderLines.FirstOrDefault(l =>
+            l.Id == lineId.Value);
+
+        if (line is null)
+        {
+            throw new LineNotFoundException(Id, lineId.Value);
+        }
+
+        line.Product = product.Value;
+        line.UnitPrice = unitPrice.Amount;
+        line.Quantity = quantity.Value;
+        AssertInvariants();
+    }
     /// <summary>
     ///     Throws an exception if the entity state is not valid.
     /// </summary>
@@ -101,7 +138,7 @@ public class SalesOrder
          */
         AssertInvariantsWasCalled = true;
 
-        var byProductName = _lines.GroupBy(x => x.Product.Trim().ToUpper());
+        var byProductName = SalesOrderLines.GroupBy(x => x.Product.Trim().ToUpper());
         var firstDuplicate = byProductName.FirstOrDefault(g =>
             g.Count() > 1);
 

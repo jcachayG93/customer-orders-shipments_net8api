@@ -12,8 +12,8 @@ using WebApi.Persistence;
 namespace WebApi.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20240302195108_initial-create")]
-    partial class initialcreate
+    [Migration("20240303013857_initial_create")]
+    partial class initial_create
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -35,21 +35,26 @@ namespace WebApi.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Orders");
+                    b.ToTable("SalesOrders");
                 });
 
             modelBuilder.Entity("Domain.Entities.OrderAggregate.SalesOrderLine", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
                     b.Property<string>("Product")
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<Guid?>("SalesOrderId")
+                    b.Property<int>("Quantity")
+                        .HasColumnType("integer");
+
+                    b.Property<Guid>("SalesOrderId")
                         .HasColumnType("uuid");
+
+                    b.Property<decimal>("UnitPrice")
+                        .HasColumnType("numeric");
 
                     b.HasKey("Id");
 
@@ -61,13 +66,15 @@ namespace WebApi.Migrations
             modelBuilder.Entity("Domain.Entities.OrderAggregate.SalesOrderLine", b =>
                 {
                     b.HasOne("Domain.Entities.OrderAggregate.SalesOrder", null)
-                        .WithMany("Lines")
-                        .HasForeignKey("SalesOrderId");
+                        .WithMany("SalesOrderLines")
+                        .HasForeignKey("SalesOrderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Domain.Entities.OrderAggregate.SalesOrder", b =>
                 {
-                    b.Navigation("Lines");
+                    b.Navigation("SalesOrderLines");
                 });
 #pragma warning restore 612, 618
         }
