@@ -17,7 +17,7 @@ Feel free to clone this project and experiment with it. Ask me questions by [Lin
 ## Features (user stories)
 - [x] feature 1: As a sales person, I need to be able to create sales orders for my customers.
 - [x] feature 2: As a sales person, I need to see a list of orders.
-- [ ] feature 3: As a sales person, I need to add and remove lines to an order. 
+- [x] feature 3: As a sales person, I need to add and remove lines to an order. 
   
 # CustomerOrders
 
