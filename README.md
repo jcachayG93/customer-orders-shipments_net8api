@@ -4,22 +4,22 @@ What you see in this project is the result of several years of experimentation, 
 
 Feel free to clone this project and experiment with it. Ask me questions by [Linkedin](https://www.linkedin.com/in/julio-cachay-2a159226b/)
 
-# Progress
+# Planning, progress and performance.
 
 ## Preparation (Project setup)
-- [x] Create Solution with projects.
-- [x] Add a controller with a Ping end-point.
-- [x] Add some value objects.
-- [x] Implement the Order agggregate.
-- [x] Add the infrasturture layer with a postgres database and EF Core ORM.
-- [x] Add integration testing (using an in memory database)
+- [x] Create Solution with projects (1hr)
+- [x] Add a controller with a Ping end-point (5 minutes)
+- [x] Add some value objects (1 hr)
+- [x] Implement the Order aggregate (1 hr)
+- [x] Add the infrasturture layer with a postgres database and EF Core ORM (2 hrs)
+- [x] Add integration testing (using an in memory database) (1 hr) <-- About 6 hours so far.
 
 ## Features (user stories)
-- [x] feature 1: As a sales person, I want to create sales orders, so I can send them to my customers.
-- [x] feature 2: As a sales person, I want to see a list of sales order.
-- [x] feature 3: As a sales person, I want to modify orders so I can attend my customer requests.
-- [x] feature 4: Add error handling, with a centralized global exception handler that returns problem details.
-- [ ] feature 5: As a sales person, I want to mark an order as ordered so It can be shipped.
+- [x] feature 1: As a sales person, I want to create sales orders, so I can send them to my customers (30 min)
+- [x] feature 2: As a sales person, I want to see a list of sales order (30 min)
+- [x] feature 3: As a sales person, I want to modify orders so I can attend my customer requests (2 hrs)
+- [x] feature 4: Add error handling, with a centralized global exception handler that returns problem details (30 min)
+- [x] feature 5: As a sales person, I want to mark an order as ordered so It can be shipped. (30 min)
 - [ ] feature 6: As a sales person, I want a packing list to be automatically created when I mark an order as ordered.
 - [ ] feature 7: As a sales person, I want the order be be freezed once ordered, so I know it wont change after I sent it to a customer.
 - [ ] feature 9: Create UI
