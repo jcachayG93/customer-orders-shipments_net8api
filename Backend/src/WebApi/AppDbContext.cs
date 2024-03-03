@@ -7,9 +7,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace WebApi;
 
-public class AppDbContext(DbContextOptions<AppDbContext> options, IMediator mediator) : DbContext(options)
+public class AppDbContext(DbContextOptions<AppDbContext> options, IMediator? mediator = null) : DbContext(options)
 {
-    private readonly IMediator _mediator = mediator;
+    private readonly IMediator? _mediator = mediator;
     public DbSet<SalesOrder> SalesOrders { get; set; } = null!;
 
     public DbSet<PackingList> PackingLists { get; set; } = null!;
@@ -22,16 +22,19 @@ public class AppDbContext(DbContextOptions<AppDbContext> options, IMediator medi
 
     public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())
     {
-        var changedEntities = ChangeTracker.Entries()
-            .Select(e => e.Entity)
-            .OfType<Entity>().ToArray();
-
-        var allEvents = changedEntities.SelectMany(e => e.DomainEvents).ToArray();
-        
-        foreach (var de in allEvents)
+        if (_mediator is not null)
         {
-            await _mediator.Publish(de);
-        } 
+            var changedEntities = ChangeTracker.Entries()
+                .Select(e => e.Entity)
+                .OfType<Entity>().ToArray();
+
+            var allEvents = changedEntities.SelectMany(e => e.DomainEvents).ToArray();
+        
+            foreach (var de in allEvents)
+            {
+                await _mediator.Publish(de);
+            } 
+        }
         return await base.SaveChangesAsync(cancellationToken);
     }
 }
