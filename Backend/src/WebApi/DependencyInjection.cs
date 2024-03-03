@@ -2,6 +2,7 @@
 using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 using WebApi.Features.Orders.Common;
+using WebApi.Middleware;
 
 namespace WebApi;
 
@@ -35,6 +36,9 @@ public static class DependencyInjection
         services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
 
         services.AddScoped<ISalesOrdersRepository, SalesOrderRepository>();
+
+        services.AddExceptionHandler<GlobalExceptionHandler>();
+        services.AddProblemDetails();
 
         return services;
     }
