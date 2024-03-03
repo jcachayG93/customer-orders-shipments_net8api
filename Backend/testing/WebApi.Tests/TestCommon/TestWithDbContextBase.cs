@@ -9,16 +9,21 @@ namespace WebApi.Tests.TestCommon;
 /// </summary>
 public abstract class TestWithDbContextBase
 {
-    public AppDbContext TestDbContext { get;}
+    private readonly SqliteConnection _connection;
 
     protected TestWithDbContextBase()
     {
-        var connection = new SqliteConnection("Filename=:memory:");
-        connection.Open();
+        _connection = new SqliteConnection("Filename=:memory:");
+        _connection.Open();
+        
+    }
+
+    protected AppDbContext CreateDbContext()
+    {
         var contextOptions = new DbContextOptionsBuilder<AppDbContext>()
-            .UseSqlite(connection)
+            .UseSqlite(_connection)
             .Options;
 
-        TestDbContext = new AppDbContext(contextOptions);
+        return new(contextOptions);
     }
 }

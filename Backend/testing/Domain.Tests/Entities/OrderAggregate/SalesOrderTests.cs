@@ -51,9 +51,9 @@ public class SalesOrderTests
 
         // ************ ASSERT ************
 
-        Assert.Equal(1, sut.Lines.Count);
+        Assert.Equal(1, sut.SalesOrderLines.Count());
 
-        Assert.Contains(sut.Lines, l =>
+        Assert.Contains(sut.SalesOrderLines, l =>
             l.Id == lineId.Value
             && l.Product == "Dog Food Bag"
             && l.Quantity == 10
@@ -75,7 +75,7 @@ public class SalesOrderTests
 
         // ************ ACT ************
 
-        decimal result = sut.Lines.First().Total;
+        decimal result = sut.SalesOrderLines.First().Total;
 
         // ************ ASSERT ************
 
@@ -124,7 +124,7 @@ public class SalesOrderTests
 
         // ************ ASSERT ************
 
-        Assert.Empty(sut.Lines);
+        Assert.Empty(sut.SalesOrderLines);
         Assert.True(sut.AssertInvariantsWasCalled);
     }
 
@@ -164,7 +164,7 @@ public class SalesOrderTests
 
         // ************ ASSERT ************
 
-        var result = sut.Lines.First();
+        var result = sut.SalesOrderLines.First();
         
         Assert.Equal("Large Bolts", result.Product);
         Assert.Equal(1110, result.Quantity);

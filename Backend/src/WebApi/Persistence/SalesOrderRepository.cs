@@ -23,7 +23,7 @@ public class SalesOrderRepository
     {
         var result = await _dbContext.Orders
             .AsNoTracking()
-            .Include(e => e.Lines)
+            .Include(e => e.SalesOrderLines)
             .FirstOrDefaultAsync(o => o.Id == id.Value);
 
         return result;

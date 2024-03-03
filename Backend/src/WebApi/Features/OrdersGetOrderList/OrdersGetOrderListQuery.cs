@@ -19,7 +19,7 @@ public class OrdersGetOrderListQuery : IRequest<ICollection<SalesOrderLookup>>
         {
             var orders = await _dbContext
                 .Orders.AsNoTracking()
-                .Include(e=>e.Lines)
+                .Include(e=>e.SalesOrderLines)
                 .ToArrayAsync();
 
             var result = orders.Select(o =>

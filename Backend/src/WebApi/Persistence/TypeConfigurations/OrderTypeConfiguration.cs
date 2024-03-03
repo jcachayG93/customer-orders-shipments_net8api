@@ -10,16 +10,9 @@ public class OrderTypeConfiguration : IEntityTypeConfiguration<SalesOrder>
     {
         builder.HasKey(e => e.Id);
         builder.Property(e => e.Id).ValueGeneratedNever();
-        builder.Property(e => e.Lines).HasField("_lines");
-    }
-}
+        builder.Property(e => e.SalesOrderLines).HasField("_salesOrderLines")
+            .UsePropertyAccessMode(PropertyAccessMode.Field);
+        // builder.HasMany(e => e.SalesOrderLines).WithOne().IsRequired();
 
-public class OrderLineTypeConfiguration : IEntityTypeConfiguration<SalesOrderLine>
-{
-    public void Configure(EntityTypeBuilder<SalesOrderLine> builder)
-    {
-        builder.HasKey(e => e.Id);
-        builder.Property(e => e.Id)
-            .ValueGeneratedNever();
     }
 }

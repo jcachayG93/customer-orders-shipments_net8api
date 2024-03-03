@@ -52,11 +52,11 @@ public class Feature3_ORdersAddRemoveLines_IntegrationTests
         // ************ ASSERT ************
 
         var result = _applicationFactory.GetEntities(db =>
-            db.Orders.AsNoTracking().Include(e => e.Lines).ToArray());
+            db.Orders.AsNoTracking().Include(e => e.SalesOrderLines).ToArray());
 
         /*
          * The unit tests are exhaustive, this one is just testing the complete slice.
          */
-        Assert.Equal("Small bolt", result.First().Lines.First().Product);
+        Assert.Equal("Small bolt", result.First().SalesOrderLines.First().Product);
     }
 }

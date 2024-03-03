@@ -20,7 +20,7 @@ public class SalesOrder : ISalesOrderRoot
      * Now, this is not 100% true. They could still cast the ICollection to a List, but that requires an extra effort which would not
      * be accidental. To me, the idea, is to prevent errors.
      */
-    private readonly List<SalesOrderLine> _lines = new();
+    private readonly List<SalesOrderLine> _salesOrderLines = new();
 
     // Current version of EF Core requires a parameterless constructor.
     private SalesOrder()
@@ -51,24 +51,24 @@ public class SalesOrder : ISalesOrderRoot
      */
     public Guid Id { get; private set; }
 
-    public ICollection<SalesOrderLine> Lines => _lines;
+    public IEnumerable<SalesOrderLine> SalesOrderLines => _salesOrderLines;
 
     /// <summary>
     /// Determines if a line with the specified Id exists.
     /// </summary>
     public bool DoesLineExists(EntityIdentity lineId)
     {
-        return _lines.Any(l =>
+        return _salesOrderLines.Any(l =>
             l.Id == lineId.Value);
     }
 
     public ICollection<EntityIdentity> GetLineIds()
     {
-        return _lines.Select(l =>
+        return _salesOrderLines.Select(l =>
             new EntityIdentity(l.Id)).ToArray();
     }
 
-    public decimal Total => _lines.Sum(x => x.Total);
+    public decimal Total => _salesOrderLines.Sum(x => x.Total);
 
     /*
      * Here I have a property that is used mainly for testing. In general that is not a good idea, but there is a cost
@@ -98,7 +98,7 @@ public class SalesOrder : ISalesOrderRoot
         var line = new SalesOrderLine(
             id.Value, productName.Value, quantity.Value, unitPrice.Amount);
 
-        _lines.Add(line);
+        _salesOrderLines.Add(line);
 
         AssertInvariants();
     }
@@ -108,11 +108,11 @@ public class SalesOrder : ISalesOrderRoot
     /// </summary>
     public void RemoveLine(EntityIdentity lineId)
     {
-        var match = _lines.Find(l => l.Id == lineId.Value);
+        var match = _salesOrderLines.Find(l => l.Id == lineId.Value);
 
         if (match is not null)
         {
-            _lines.Remove(match);
+            _salesOrderLines.Remove(match);
             
             AssertInvariants();
         }
@@ -124,7 +124,7 @@ public class SalesOrder : ISalesOrderRoot
     public void UpdateLine(EntityIdentity lineId, NonEmptyString product, GreaterThanZeroInteger quantity,
         Money unitPrice)
     {
-        var line = _lines.FirstOrDefault(l =>
+        var line = _salesOrderLines.FirstOrDefault(l =>
             l.Id == lineId.Value);
 
         if (line is null)
@@ -150,7 +150,7 @@ public class SalesOrder : ISalesOrderRoot
          */
         AssertInvariantsWasCalled = true;
 
-        var byProductName = _lines.GroupBy(x => x.Product.Trim().ToUpper());
+        var byProductName = _salesOrderLines.GroupBy(x => x.Product.Trim().ToUpper());
         var firstDuplicate = byProductName.FirstOrDefault(g =>
             g.Count() > 1);
 
