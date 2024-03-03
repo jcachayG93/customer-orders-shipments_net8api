@@ -18,7 +18,7 @@ Feel free to clone this project and experiment with it. Ask me questions by [Lin
 - [x] feature 1: As a sales person, I want to create sales orders, so I can send them to my customers.
 - [x] feature 2: As a sales person, I want to see a list of sales order.
 - [x] feature 3: As a sales person, I want to modify orders so I can attend my customer requests.
-- [ ] feature 4: Add error handling.
+- [x] feature 4: Add error handling, with a centralized global exception handler that returns problem details.
 - [ ] feature 5: As a sales person, I want to mark an order as ordered so It can be shipped.
 - [ ] feature 6: As a sales person, I want a packing list to be automatically created when I mark an order as ordered.
 - [ ] feature 7: As a sales person, I want the order be be freezed once ordered, so I know it wont change after I sent it to a customer.
