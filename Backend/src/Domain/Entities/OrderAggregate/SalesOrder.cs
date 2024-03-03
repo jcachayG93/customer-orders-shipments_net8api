@@ -130,7 +130,8 @@ public class SalesOrder : ISalesOrderRoot
 
     public void MarkAsOrdered()
     {
-        throw new NotImplementedException();
+        IsOrdered = true;
+        AssertInvariants();
     }
 
     /// <summary>
