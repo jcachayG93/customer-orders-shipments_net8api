@@ -43,7 +43,7 @@ Requirements:
 - Docker [Download here](https://www.docker.com/products/docker-desktop/)
 - EF Core CLI tools [More here](https://learn.microsoft.com/en-us/ef/core/cli/dotnet)
 
-## What this app does?
+## What this App does?
 1. The Sales Person creates a Sales Order, and see the existing Sales Orders.
 3. The Sales Person can add/remove/update lines for the Order.
 4. The Sales Person can mark a SalesOrder as ordered, which freezes it so nobody can change it again (for now)
