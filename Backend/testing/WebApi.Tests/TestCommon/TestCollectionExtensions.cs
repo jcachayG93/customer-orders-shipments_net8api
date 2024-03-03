@@ -2,7 +2,7 @@
 
 public static class TestCollectionExtensions
 {
-    public static ICollection<T> ToCollectionWith<T>(this T item, params T[] additionalItems)
+    public static ICollection<T> ToCollection<T>(this T item, params T[] additionalItems)
     {
         var result = new List<T>() { item };
 

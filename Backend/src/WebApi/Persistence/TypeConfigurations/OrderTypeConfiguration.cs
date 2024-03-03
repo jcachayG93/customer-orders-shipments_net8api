@@ -10,5 +10,16 @@ public class OrderTypeConfiguration : IEntityTypeConfiguration<SalesOrder>
     {
         builder.HasKey(e => e.Id);
         builder.Property(e => e.Id).ValueGeneratedNever();
+        builder.Property(e => e.Lines).HasField("_lines");
+    }
+}
+
+public class OrderLineTypeConfiguration : IEntityTypeConfiguration<SalesOrderLine>
+{
+    public void Configure(EntityTypeBuilder<SalesOrderLine> builder)
+    {
+        builder.HasKey(e => e.Id);
+        builder.Property(e => e.Id)
+            .ValueGeneratedNever();
     }
 }

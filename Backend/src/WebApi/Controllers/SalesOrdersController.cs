@@ -1,5 +1,6 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using WebApi.Features.OrdersAddRemoveLines;
 using WebApi.Features.OrdersCreate;
 using WebApi.Features.OrdersGetOrderList;
 
@@ -42,5 +43,13 @@ public class SalesOrdersController : ControllerBase
         var result = await _mediator.Send(query);
 
         return Ok(result);
+    }
+
+    [HttpPost("add-remove-lines")]
+    public async Task<ActionResult> AddRemoveLines(
+        OrdersAddRemoveLinesCommand command)
+    {
+        await _mediator.Send(command);
+        return Ok();
     }
 }

@@ -121,7 +121,7 @@ public class OrdersAddRemoveLinesCommandTests
 
         var aggregate = CreateSalesOrderMock();
         aggregate.Setup(x => x.GetLineIds())
-            .Returns(lineToDeleteId.ToCollectionWith(lineToKeep));
+            .Returns(lineToDeleteId.ToCollection(lineToKeep));
 
         var repository = CreateRepositoryMock(aggregate.Object);
         

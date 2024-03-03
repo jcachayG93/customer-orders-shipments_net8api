@@ -38,7 +38,6 @@ namespace WebApi.Migrations
             modelBuilder.Entity("Domain.Entities.OrderAggregate.SalesOrderLine", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
                     b.Property<string>("Product")
