@@ -1,11 +1,12 @@
-﻿using Domain.ValueObjects;
+﻿using Domain.Common;
+using Domain.ValueObjects;
 
 namespace Domain.Entities.PackingListAggregate;
 
 /// <summary>
 /// A list of contents from an order that need to be packed in a container so it can be shipped to the customer.
 /// </summary>
-public class PackingList
+public class PackingList 
 {
     public Guid Id { get; private set; }
 

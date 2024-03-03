@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using Domain.Common;
+using MediatR;
 using WebApi.Exceptions;
 using WebApi.Features.Orders.Common;
 
@@ -11,10 +12,12 @@ public class OrderMarkAsOrderedCommand : IRequest
     public class Handler : IRequestHandler<OrderMarkAsOrderedCommand>
     {
         private readonly ISalesOrdersRepository _repository;
+        private readonly IMediator? _mediator;
 
-        public Handler(ISalesOrdersRepository repository)
+        public Handler(ISalesOrdersRepository repository, IMediator? mediator = null)
         {
             _repository = repository;
+            _mediator = mediator;
         }
         public async Task Handle(OrderMarkAsOrderedCommand request, CancellationToken cancellationToken)
         {

@@ -1,4 +1,6 @@
-﻿namespace Domain.Common;
+﻿using MediatR;
+
+namespace Domain.Common;
 
 /// <summary>
 /// Base class for an entity that can emit domain events.

@@ -1,4 +1,5 @@
 ﻿using Domain.Common;
+using MediatR;
 
 namespace Domain.Entities.OrderAggregate.DomainEvents;
 
