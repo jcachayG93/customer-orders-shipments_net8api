@@ -104,3 +104,4 @@ Everything in this project is based on Test Driven Development:
 - PostgresDb
 - Ef Core
 - Docker
+- Fluent validation
