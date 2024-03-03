@@ -1,8 +1,6 @@
 ﻿using System.Net;
 using System.Net.Http.Json;
 using Domain.Entities.OrderAggregate;
-using MediatR;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using WebApi.Exceptions;
@@ -11,6 +9,7 @@ using WebApi.Tests.TestCommon;
 
 namespace WebApi.Tests.Middleware;
 
+[Collection("Sequential")]
 public class GlobalExceptionHandlerTests
 : IntegrationTestsBase
 {

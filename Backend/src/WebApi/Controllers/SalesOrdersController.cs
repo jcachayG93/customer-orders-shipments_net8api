@@ -1,5 +1,6 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using WebApi.Features.Orders.OrderMarkAsOrdered;
 using WebApi.Features.Orders.OrdersAddRemoveLines;
 using WebApi.Features.Orders.OrdersCreate;
 using WebApi.Features.Orders.OrdersGetOrderList;
@@ -33,6 +34,20 @@ public class SalesOrdersController : ControllerBase
         await _mediator.Send(command);
 
         return Created();
+    }
+
+    [HttpPost]
+    [Route("{orderId:guid}/mark-ordered")]
+    public async Task<ActionResult> MarkAsOrdered(Guid orderId)
+    {
+        var command = new OrderMarkAsOrderedCommand()
+        {
+            OrderId = orderId
+        };
+
+        await _mediator.Send(command);
+
+        return Ok();
     }
 
     [HttpGet]

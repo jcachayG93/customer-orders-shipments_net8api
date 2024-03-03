@@ -39,6 +39,8 @@ public class SalesOrder : ISalesOrderRoot
      */
     public Guid Id { get; private set; }
 
+    public bool IsOrdered { get; private set; }
+
     public IEnumerable<SalesOrderLine> SalesOrderLines { get; private set; } = new List<SalesOrderLine>();
 
     /// <summary>
@@ -125,6 +127,13 @@ public class SalesOrder : ISalesOrderRoot
         line.Quantity = quantity.Value;
         AssertInvariants();
     }
+
+    public void MarkAsOrdered()
+    {
+        IsOrdered = true;
+        AssertInvariants();
+    }
+
     /// <summary>
     ///     Throws an exception if the entity state is not valid.
     /// </summary>

@@ -42,4 +42,9 @@ public interface ISalesOrderRoot
     /// </summary>
     void UpdateLine(EntityIdentity lineId, NonEmptyString product, GreaterThanZeroInteger quantity,
         Money unitPrice);
+
+    /// <summary>
+    /// Marks the order as ordered.
+    /// </summary>
+    void MarkAsOrdered();
 }

@@ -196,6 +196,26 @@ public class SalesOrderTests
 
     }
 
+    [Fact]
+    public void MarkAsOrdered_SetsOrderedToTrue_AssertsInvariants()
+    {
+        // ************ ARRANGE ************
+
+        var sut = CreateSut();
+
+        sut.AssertInvariantsWasCalled = false;
+        Assert.False(sut.IsOrdered);
+        
+        // ************ ACT ************
+
+        sut.MarkAsOrdered();
+        
+        // ************ ASSERT ************
+
+        Assert.True(sut.IsOrdered);
+        Assert.True(sut.AssertInvariantsWasCalled);
+    }
+
     [Theory]
     [InlineData(true, true)]
     [InlineData(false, false)]
