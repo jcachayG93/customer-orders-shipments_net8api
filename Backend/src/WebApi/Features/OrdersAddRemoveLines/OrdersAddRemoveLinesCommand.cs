@@ -1,6 +1,7 @@
 ﻿using Domain.Entities.OrderAggregate;
 using Domain.ValueObjects;
 using MediatR;
+using WebApi.Exceptions;
 using WebApi.Persistence;
 
 namespace WebApi.Features.OrdersAddRemoveLines;
@@ -39,7 +40,7 @@ public class OrdersAddRemoveLinesCommand : IRequest
 
             if (aggregate is null)
             {
-                return;
+                throw new EntityNotFoundException($"SalesOrder with Id: {request.OrderId} was not found.");
             }
             
             // Delete

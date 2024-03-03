@@ -1,6 +1,7 @@
 ﻿using Domain.Entities.OrderAggregate;
 using Domain.ValueObjects;
 using Moq;
+using WebApi.Exceptions;
 using WebApi.Features.OrdersAddRemoveLines;
 using WebApi.Persistence;
 using WebApi.Tests.TestCommon;
@@ -71,9 +72,12 @@ public class OrdersAddRemoveLinesCommandTests
     {
         // ************ ARRANGE ************
 
-        var command = CreateCommand(Guid.NewGuid());
-
-        var repository = CreateRepositoryMock();
+        var aggregate = CreateSalesOrderMock();
+        
+        var command = CreateCommand(aggregate.Object.Id);
+        
+        var repository = CreateRepositoryMock(
+            aggregate.Object);
 
         var sut = CreateSut(repository.Object);
 
@@ -84,6 +88,27 @@ public class OrdersAddRemoveLinesCommandTests
         // ************ ASSERT ************
 
         repository.Verify(x=>x.GetByIdAsync(new(command.OrderId)));
+    }
+
+    [Fact]
+    public async Task WhenAggregateDoesNotExist_ThrowsException()
+    {
+        // ************ ARRANGE ************
+
+        var repository = CreateRepositoryMock();
+        
+        var command = CreateCommand(Guid.NewGuid());
+
+        var sut = CreateSut(repository.Object);
+
+        // ************ ACT ************
+
+        var result = await Record.ExceptionAsync(async () => await sut.Handle(command, CancellationToken.None));
+
+        // ************ ASSERT ************
+
+        Assert.NotNull(result);
+        Assert.IsType<EntityNotFoundException>(result);
     }
 
     [Fact]
