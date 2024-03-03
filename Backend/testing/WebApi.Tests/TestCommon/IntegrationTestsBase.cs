@@ -46,23 +46,15 @@ public abstract class IntegrationTestsBase : IDisposable
         DbContextOptions<AppDbContext> contextOptions = new DbContextOptionsBuilder<AppDbContext>()
             .UseSqlite(connection)
             .Options;
-            
-        ServiceDescriptor? oldDbContext = ServiceDescriptor.Scoped(
-            typeof(AppDbContext), 
-            typeof(AppDbContext));
         
-        if (oldDbContext is not null)
-        {
-            
-            services.Remove(oldDbContext);
-        }
-
-        services.AddScoped(typeof(AppDbContext), _ =>
-        {
-            var result = new AppDbContext(contextOptions);
-            result.Database.Migrate();
-            return result;
-        });
+        services.TestReplaceScopedService<AppDbContext, AppDbContext>(
+            typeof(AppContext),
+            _ =>
+            {
+                var result = new AppDbContext(contextOptions);
+                result.Database.Migrate();
+                return result;
+            });
     }
     
     public void Dispose()

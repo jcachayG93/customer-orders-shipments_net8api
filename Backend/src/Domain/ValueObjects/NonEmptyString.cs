@@ -2,8 +2,13 @@
 
 namespace Domain.ValueObjects;
 
+/// <summary>
+/// Represents a text value, for example, a name.
+/// </summary>
 public record NonEmptyString
 {
+    public string Value { get; }
+    
     public NonEmptyString(string value)
     {
 /*
@@ -12,18 +17,25 @@ public record NonEmptyString
  * have to make less work (no need to verify)
  */
         if (string.IsNullOrWhiteSpace(value))
+        {
             throw new InvalidEntityStateException("NonEmptyString must have a value.");
+        }
 
         Value = value;
     }
 
-    public string Value { get; }
-
+    /// <summary>
+    /// Determines if this is equivalent to another, ignoring case and surrounding white space.
+    /// </summary>
     public bool IsEquivalentTo(NonEmptyString other)
     {
         return StringsAreEquivalent(Value, other.Value);
     }
 
+    
+    /// <summary>
+    /// Determines if this is equivalent to another, ignoring case and surrounding white space.
+    /// </summary>
     public bool IsEquivalentTo(string other)
     {
         return StringsAreEquivalent(Value, other);

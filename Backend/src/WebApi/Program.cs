@@ -37,6 +37,14 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+/*
+ * See in the middleware folder, there is a GlobalExceptionHandler that maps exceptiosn
+ * to problem details results.
+ * https://code-maze.com/using-the-problemdetails-class-in-asp-net-core-web-api/
+ * https://www.milanjovanovic.tech/blog/global-error-handling-in-aspnetcore-8
+ */
+app.UseExceptionHandler();
+
 app.MapControllers();
 
 app.Run();
