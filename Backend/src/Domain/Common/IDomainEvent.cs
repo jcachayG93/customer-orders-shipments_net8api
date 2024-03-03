@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿
+using MediatR;
 
 namespace Domain.Common;
 
