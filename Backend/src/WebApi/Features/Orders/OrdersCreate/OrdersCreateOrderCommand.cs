@@ -1,8 +1,8 @@
 ﻿using Domain.Entities.OrderAggregate;
 using MediatR;
-using WebApi.Persistence;
+using WebApi.Features.Orders.Common;
 
-namespace WebApi.Features.OrdersCreate;
+namespace WebApi.Features.Orders.OrdersCreate;
 
 /*
  * There is an integration test in WebApi.Tests, at the controller level.

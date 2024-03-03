@@ -1,6 +1,5 @@
 using Microsoft.EntityFrameworkCore;
 using WebApi;
-using WebApi.Persistence;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -44,7 +43,10 @@ app.Run();
 
 
 //https://learn.microsoft.com/en-us/aspnet/core/test/integration-tests?view=aspnetcore-8.0
-public partial class Program
+namespace WebApi
 {
+    public partial class Program
+    {
     
+    }
 }

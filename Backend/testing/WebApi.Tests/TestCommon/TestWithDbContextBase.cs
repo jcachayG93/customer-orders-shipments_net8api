@@ -1,6 +1,5 @@
 ﻿using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
-using WebApi.Persistence;
 
 namespace WebApi.Tests.TestCommon;
 

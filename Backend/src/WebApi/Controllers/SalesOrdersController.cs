@@ -1,8 +1,8 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using WebApi.Features.OrdersAddRemoveLines;
-using WebApi.Features.OrdersCreate;
-using WebApi.Features.OrdersGetOrderList;
+using WebApi.Features.Orders.OrdersAddRemoveLines;
+using WebApi.Features.Orders.OrdersCreate;
+using WebApi.Features.Orders.OrdersGetOrderList;
 
 namespace WebApi.Controllers;
 

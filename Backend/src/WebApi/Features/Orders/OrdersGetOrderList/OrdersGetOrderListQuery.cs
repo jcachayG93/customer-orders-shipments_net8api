@@ -1,8 +1,7 @@
 ﻿using MediatR;
 using Microsoft.EntityFrameworkCore;
-using WebApi.Persistence;
 
-namespace WebApi.Features.OrdersGetOrderList;
+namespace WebApi.Features.Orders.OrdersGetOrderList;
 
 public class OrdersGetOrderListQuery : IRequest<ICollection<SalesOrderLookup>>
 {
@@ -32,11 +31,4 @@ public class OrdersGetOrderListQuery : IRequest<ICollection<SalesOrderLookup>>
             return result;
         }
     }
-}
-
-public class SalesOrderLookup
-{
-    public required Guid OrderId { get; init; }
-
-    public required decimal Total { get; init; }
 }

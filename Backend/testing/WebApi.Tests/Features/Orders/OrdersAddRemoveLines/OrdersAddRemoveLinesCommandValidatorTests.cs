@@ -1,6 +1,6 @@
-﻿using WebApi.Features.OrdersAddRemoveLines;
+﻿using WebApi.Features.Orders.OrdersAddRemoveLines;
 
-namespace WebApi.Tests.Features.Feature3_OrdersAddRemoveLinesCommand;
+namespace WebApi.Tests.Features.Orders.OrdersAddRemoveLines;
 
 public class OrdersAddRemoveLinesCommandValidatorTests
 {

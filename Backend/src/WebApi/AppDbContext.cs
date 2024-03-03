@@ -2,7 +2,7 @@
 using Domain.Entities.OrderAggregate;
 using Microsoft.EntityFrameworkCore;
 
-namespace WebApi.Persistence;
+namespace WebApi;
 
 public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(options)
 {

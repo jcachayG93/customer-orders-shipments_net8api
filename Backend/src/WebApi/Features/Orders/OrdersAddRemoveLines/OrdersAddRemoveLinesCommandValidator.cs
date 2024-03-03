@@ -1,6 +1,6 @@
 ﻿using FluentValidation;
 
-namespace WebApi.Features.OrdersAddRemoveLines;
+namespace WebApi.Features.Orders.OrdersAddRemoveLines;
 
 public class OrdersAddRemoveLinesCommandValidator
 : AbstractValidator<OrdersAddRemoveLinesCommand>

@@ -1,7 +1,7 @@
 ﻿using System.Reflection;
 using FluentValidation;
 using Microsoft.EntityFrameworkCore;
-using WebApi.Persistence;
+using WebApi.Features.Orders.Common;
 
 namespace WebApi;
 

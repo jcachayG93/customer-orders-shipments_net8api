@@ -1,18 +1,17 @@
 ﻿using System.Net.Http.Json;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using WebApi.Features.OrdersCreate;
+using WebApi.Features.Orders.OrdersCreate;
 using WebApi.Tests.TestCommon;
 
-namespace WebApi.Tests.Features;
+namespace WebApi.Tests.Features.Orders.OrdersCreate;
 
 [Collection("sequential")]
-public class Feature1_CreateSalesOrder_IntegrationTests : IntegrationTestsBase
+public class OrdersCreate_UseCaseTest : IntegrationTestsBase
 {
     private readonly HttpClient _client;
     private readonly CustomApplicationFactory _factory;
 
-    public Feature1_CreateSalesOrder_IntegrationTests()
+    public OrdersCreate_UseCaseTest()
     {
         _factory = CreateApplicationFactory();
         _client = _factory.CreateClient();

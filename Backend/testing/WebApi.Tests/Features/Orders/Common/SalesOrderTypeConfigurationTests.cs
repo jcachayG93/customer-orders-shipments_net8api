@@ -1,10 +1,9 @@
-﻿using System.Text.Encodings.Web;
-using Domain.Entities.OrderAggregate;
+﻿using Domain.Entities.OrderAggregate;
 using Domain.ValueObjects;
 using Microsoft.EntityFrameworkCore;
 using WebApi.Tests.TestCommon;
 
-namespace WebApi.Tests.Persistence.TypeConfigurations;
+namespace WebApi.Tests.Features.Orders.Common;
 
 public class SalesOrderTypeConfigurationTests
 : TestWithDbContextBase
