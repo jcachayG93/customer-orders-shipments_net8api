@@ -10,6 +10,7 @@ namespace WebApi.Tests.Features.Feature3_OrdersAddRemoveLinesCommand;
 
 public class OrdersAddRemoveLinesCommandTests
 {
+    private readonly TestValidatorMock<OrdersAddRemoveLinesCommand> _validator = new();
     private Mock<ISalesOrdersRepository> CreateRepositoryMock(
         params ISalesOrderRoot[] getReturns)
     {
@@ -64,7 +65,31 @@ public class OrdersAddRemoveLinesCommandTests
     private OrdersAddRemoveLinesCommand.Handler CreateSut(
         ISalesOrdersRepository repository)
     {
-        return new(repository);
+        return new(repository, _validator.Object);
+    }
+
+    [Fact]
+    public async Task AssertsCommandIsValid()
+    {
+        // ************ ARRANGE ************
+        
+        _validator.SetupIsValid(false);
+
+        var command = CreateCommand(Guid.NewGuid());
+
+        var repository = CreateRepositoryMock();
+
+        var sut = CreateSut(repository.Object);
+        
+        // ************ ACT ************
+
+        var result = await Record.ExceptionAsync(async () => await sut.Handle(command, CancellationToken.None));
+
+        // ************ ASSERT ************
+
+        Assert.NotNull(result);
+        Assert.IsType<ValidationException>(result);
+
     }
 
     [Fact]

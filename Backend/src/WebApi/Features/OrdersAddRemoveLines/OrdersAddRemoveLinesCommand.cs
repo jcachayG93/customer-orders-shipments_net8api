@@ -1,8 +1,10 @@
 ﻿using Domain.Entities.OrderAggregate;
 using Domain.ValueObjects;
+using FluentValidation;
 using MediatR;
 using WebApi.Exceptions;
 using WebApi.Persistence;
+using ValidationException = WebApi.Exceptions.ValidationException;
 
 namespace WebApi.Features.OrdersAddRemoveLines;
 
@@ -27,14 +29,22 @@ public class OrdersAddRemoveLinesCommand : IRequest
     public class Handler : IRequestHandler<OrdersAddRemoveLinesCommand>
     {
         private readonly ISalesOrdersRepository _repository;
+        private readonly IValidator<OrdersAddRemoveLinesCommand> _validator;
 
-        public Handler(ISalesOrdersRepository repository)
+        public Handler(
+            ISalesOrdersRepository repository,
+            IValidator<OrdersAddRemoveLinesCommand> validator)
         {
             _repository = repository;
+            _validator = validator;
         }
         
         public async Task Handle(OrdersAddRemoveLinesCommand request, CancellationToken cancellationToken)
         {
+            if (!_validator.Validate(request).IsValid)
+            {
+                throw new ValidationException(_validator.Validate(request).Errors);
+            }
             // Load the aggregate
             var aggregate = await _repository.GetByIdAsync(new(request.OrderId));
 
