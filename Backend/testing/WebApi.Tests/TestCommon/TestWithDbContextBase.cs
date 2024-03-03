@@ -1,5 +1,7 @@
-﻿using Microsoft.Data.Sqlite;
+﻿using MediatR;
+using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
+using Moq;
 
 namespace WebApi.Tests.TestCommon;
 
@@ -23,7 +25,7 @@ public abstract class TestWithDbContextBase
             .UseSqlite(_connection)
             .Options;
 
-        var result = new AppDbContext(contextOptions);
+        var result = new AppDbContext(contextOptions, Mock.Of<IDomainEventDispatcher>());
         
         result.Database.Migrate();
 

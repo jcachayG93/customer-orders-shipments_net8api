@@ -1,6 +1,8 @@
-﻿using Microsoft.Data.Sqlite;
+﻿using MediatR;
+using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using Moq;
 
 namespace WebApi.Tests.TestCommon;
 
@@ -49,9 +51,10 @@ public abstract class IntegrationTestsBase : IDisposable
         
         services.TestReplaceScopedService<AppDbContext, AppDbContext>(
             typeof(AppContext),
-            _ =>
+            sp =>
             {
-                var result = new AppDbContext(contextOptions);
+                var dispatcher = sp.GetService<IDomainEventDispatcher>()!;
+                var result = new AppDbContext(contextOptions, dispatcher);
                 result.Database.Migrate();
                 return result;
             });

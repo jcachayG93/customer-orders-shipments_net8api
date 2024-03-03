@@ -1,4 +1,6 @@
-﻿using Domain.Exceptions;
+﻿using Domain.Common;
+using Domain.Entities.OrderAggregate.DomainEvents;
+using Domain.Exceptions;
 using Domain.ValueObjects;
 
 namespace Domain.Entities.OrderAggregate;
@@ -6,7 +8,7 @@ namespace Domain.Entities.OrderAggregate;
 /// <summary>
 ///     A Sales order, represents a purchase done by a customer from the supplier.
 /// </summary>
-public class SalesOrder : ISalesOrderRoot
+public class SalesOrder : Entity, ISalesOrderRoot
 {
     
 
@@ -130,8 +132,25 @@ public class SalesOrder : ISalesOrderRoot
 
     public void MarkAsOrdered()
     {
-        IsOrdered = true;
-        AssertInvariants();
+        if (!IsOrdered)
+        {
+            IsOrdered = true;
+            var ev = new OrderOrdered()
+            {
+                OrderId = Id,
+                Lines = SalesOrderLines.Select(l =>
+                    new OrderOrdered.OrderOrderedLine()
+                    {
+                        LineId = l.Id,
+                        Product = l.Product,
+                        Quantity = l.Quantity
+                    }).ToArray()
+            };
+            
+            AddDomainEvent(ev);
+            AssertInvariants();    
+        }
+        
     }
 
     /// <summary>

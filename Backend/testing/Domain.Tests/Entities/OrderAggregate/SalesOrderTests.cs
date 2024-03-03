@@ -1,4 +1,5 @@
 ﻿using Domain.Entities.OrderAggregate;
+using Domain.Entities.OrderAggregate.DomainEvents;
 using Domain.Exceptions;
 using Domain.ValueObjects;
 
@@ -197,11 +198,15 @@ public class SalesOrderTests
     }
 
     [Fact]
-    public void MarkAsOrdered_SetsOrderedToTrue_AssertsInvariants()
+    public void MarkAsOrdered_SetsOrderedToTrue_RaisesOrderOrderedDomainEvent_AssertsInvariants()
     {
         // ************ ARRANGE ************
 
         var sut = CreateSut();
+
+        var line1Id = EntityIdentity.Random;
+        sut.AddLine(line1Id, new("Bolt"), new GreaterThanZeroInteger(10),
+            Money.CreateInDollars(1));
 
         sut.AssertInvariantsWasCalled = false;
         Assert.False(sut.IsOrdered);
@@ -214,6 +219,42 @@ public class SalesOrderTests
 
         Assert.True(sut.IsOrdered);
         Assert.True(sut.AssertInvariantsWasCalled);
+
+        Assert.Single(sut.DomainEvents);
+        Assert.Contains(sut.DomainEvents, e =>
+            e is OrderOrdered cev
+            && cev.OrderId == sut.Id
+            && cev.Lines.Count() == 1
+            && cev.Lines.Any(l =>
+                l.LineId == line1Id.Value
+                && l.Product == "Bolt"
+                && l.Quantity == 10));
+    }
+
+    [Fact]
+    public void MarkAsOrdered_WhenIsAlreadyOrdered_DoesNotRaiseAdditionalDomainEvents()
+    {
+        /*
+         * this prevents the creation of multiple packing lists if the user calls MarkAsOrdered several times (idempotency)
+         */
+        
+        // ************ ARRANGE ************
+
+        var sut = CreateSut();
+        sut.MarkAsOrdered();
+
+        Assert.Single(sut.DomainEvents);
+
+        // ************ ACT ************
+
+        for (var i = 0; i < 10; i++)
+        {
+            sut.MarkAsOrdered();
+        }
+        
+        // ************ ASSERT ************
+
+        Assert.Single(sut.DomainEvents);
     }
 
     [Theory]
