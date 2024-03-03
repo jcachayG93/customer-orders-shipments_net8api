@@ -1,3 +1,34 @@
+# Hello There
+If you are learning C#, this project is an excellent follow-along example. I will be updating it regularly until it is complete.
+What you see in this project is the result of several years of experimentation, R&D, reading, and experience.
+
+Feel free to clone this project and experiment with it. Ask me questions by [Linkedin](https://www.linkedin.com/in/julio-cachay-2a159226b/)
+
+# Progress
+
+## Preparation (Project setup)
+- [x] Create Solution with projects.
+- [x] Add a controller with a Ping end-point.
+- [x] Add some value objects.
+- [x] Implement the Order agggregate.
+- [x] Add the infrasturture layer with a postgres database and EF Core ORM.
+- [x] Add integration testing (using an in memory database)
+
+## Features (user stories)
+- [x] feature 1: As a sales person, I want to create sales orders, so I can send them to my customers.
+- [x] feature 2: As a sales person, I want to see a list of sales order.
+- [x] feature 3: As a sales person, I want to modify orders so I can attend my customer requests.
+- [ ] feature 4: Add error handling.
+- [ ] feature 5: As a sales person, I want to mark an order as ordered so It can be shipped.
+- [ ] feature 6: As a sales person, I want a packing list to be automatically created when I mark an order as ordered.
+- [ ] feature 7: As a sales person, I want the order be be freezed once ordered, so I know it wont change after I sent it to a customer.
+- [ ] feature 9: Create UI
+- [ ] feature 10: Create design system
+- [ ] feature 11: Connect UI and Back-end
+- [ ] feature 12: Create Orders screen
+- [ ] feature 13: Create Shipments screen
+- [ ] deploy   
+  
 # CustomerOrders
 
 This is a Demo project with two purposes:
@@ -8,37 +39,54 @@ This is a Demo project with two purposes:
 
 Requirements:
 - Net 8 SDK [Download here](https://dotnet.microsoft.com/en-us/download/dotnet/8.0)
+- Docker [Download here](https://www.docker.com/products/docker-desktop/)
+- EF Core CLI tools [More here](https://learn.microsoft.com/en-us/ef/core/cli/dotnet)
 
-To run:
+
+### Start the database:
+This application uses a development database that runs on Docker. To run, go to the
+BackEnd folder (the folder contains a file named docker-compose.yml)
+
+Make sure Docker desktop (or equivalent) is running.
+
+> docker compose up -d
+
+This will create a container named **customer_orders_db_x**, that is
+a postgres database.
+
+Each time you run this app in development mode, the database is recreated (all data is deleted),
+this is by design.
+
+### Run the app:
 1. Clone the repository.
-2. Navigate to: src/WebApi
+2. Navigate to: Backend/src/WebApi
 3. Run (assuming you have the Dotnet SDK installed)
 
 > dotnet run
 
-4. Explore the api: [https://localhost:5118/swagger](https://localhost:5118/swagger)
+4. Explore the API: [https://localhost:5118/swagger](https://localhost:5118/swagger)
 
 ## Run the tests.
 This is a Test Driven Development project. To run the tests:
-1. Go to the root of the repository (where the sln file is located)
+1. In the directory that contains the .sln file:
 
 > dotnet test
 
 ## Overview
-This is an explanation on what this project will be once it is completed.
+This explains what this project will be once it is completed.
 
 ### Stack
 
 - Asp.Net core 8 API.
 
 ## Architecture & Design
-This is a work in progress, what is outlined here is the goal for the final product.
+This is a work in progress. I've shared here the goal for the final product.
 
 ### Stack
-This project is an ASP.Net core 8 Web Api with Controllers.
+This project is an ASP.Net core 8 Web API with Controllers.
 
 ### Domain Driven Design
-A guiding principle for this project is Domain Driven Design.
+A guiding principle for this project is domain-driven design.
 
 ### Vertical Slice Architecture
 This project will use vertical slice architecture, organizing the code by use case.
@@ -47,11 +95,12 @@ This project will use vertical slice architecture, organizing the code by use ca
 Everything in this project is based on Test Driven Development:
 1. We write definitions with no implementations.
 2. We write the tests.
-3. Run the tests and they fail (Red)
-4. Implement and the tests pass (Green)
+3. Run the tests, and they fail (Red)
+4. Implement, and the tests pass (Green)
 5. Look at the code, eliminate repetition, document, clean up (Refactor)
 
 ### Other Technologies
 - MediatR
 - PostgresDb
+- Ef Core
 - Docker
