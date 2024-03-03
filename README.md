@@ -43,7 +43,13 @@ Requirements:
 - Docker [Download here](https://www.docker.com/products/docker-desktop/)
 - EF Core CLI tools [More here](https://learn.microsoft.com/en-us/ef/core/cli/dotnet)
 
-
+## What this app does?
+1. The Sales Person creates a Sales Order, and see the existing Sales Orders.
+3. The Sales Person can add/remove/update lines for the Order.
+4. The Sales Person can mark a SalesOrder as ordered, which freezes it so nobody can change it again (for now)
+5. When the Sales Person marks the SalesOrder as ordered, a Packing List is created (reflecting the contents of the order)
+6. The Shipping Manager can see the Packing List.
+   
 ### Start the database:
 This application uses a development database that runs on Docker. To run, go to the
 BackEnd folder (the folder contains a file named docker-compose.yml)
@@ -88,6 +94,11 @@ This project is an ASP.Net core 8 Web API with Controllers.
 
 ### Domain Driven Design
 A guiding principle for this project is domain-driven design.
+#### Domain Events
+When the SalesOrder is marked as Ordered, a domain event (OrderOrdered) is dispatched:
+- The Handler creates a Packing list.
+- This operation is Idempotent.
+- This operation is transactional (if creating the Packing List fails, the Sales Order is not marked as Ordered)
 
 ### Vertical Slice Architecture
 This project will use vertical slice architecture, organizing the code by use case.
