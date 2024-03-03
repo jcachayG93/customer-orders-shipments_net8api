@@ -18,7 +18,7 @@ public class OrdersGetOrderListQuery : IRequest<ICollection<SalesOrderLookup>>
         public async Task<ICollection<SalesOrderLookup>> Handle(OrdersGetOrderListQuery request, CancellationToken cancellationToken)
         {
             var orders = await _dbContext
-                .Orders.AsNoTracking()
+                .SalesOrders.AsNoTracking()
                 .Include(e=>e.SalesOrderLines)
                 .ToArrayAsync();
 

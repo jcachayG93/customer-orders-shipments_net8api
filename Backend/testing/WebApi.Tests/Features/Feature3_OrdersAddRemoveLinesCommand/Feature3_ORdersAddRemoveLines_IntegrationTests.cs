@@ -52,7 +52,7 @@ public class Feature3_ORdersAddRemoveLines_IntegrationTests
         // ************ ASSERT ************
 
         var result = _applicationFactory.GetEntities(db =>
-            db.Orders.AsNoTracking().Include(e => e.SalesOrderLines).ToArray());
+            db.SalesOrders.AsNoTracking().Include(e => e.SalesOrderLines).ToArray());
 
         /*
          * The unit tests are exhaustive, this one is just testing the complete slice.

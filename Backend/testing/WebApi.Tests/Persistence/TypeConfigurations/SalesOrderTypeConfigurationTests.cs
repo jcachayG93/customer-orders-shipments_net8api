@@ -30,7 +30,7 @@ public class SalesOrderTypeConfigurationTests
 
         var dbContext2 = CreateDbContext();
 
-        var result = await dbContext2.Orders.AsNoTracking()
+        var result = await dbContext2.SalesOrders.AsNoTracking()
             .Include(e => e.SalesOrderLines).FirstAsync();
         
         // ************ ASSERT ************

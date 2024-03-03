@@ -6,13 +6,13 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace WebApi.Migrations
 {
     /// <inheritdoc />
-    public partial class initialcreate : Migration
+    public partial class initial_create : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Orders",
+                name: "SalesOrders",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
@@ -20,7 +20,7 @@ namespace WebApi.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Orders", x => x.Id);
+                    table.PrimaryKey("PK_SalesOrders", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -29,16 +29,19 @@ namespace WebApi.Migrations
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     Product = table.Column<string>(type: "text", nullable: false),
-                    SalesOrderId = table.Column<Guid>(type: "uuid", nullable: true)
+                    Quantity = table.Column<int>(type: "integer", nullable: false),
+                    UnitPrice = table.Column<decimal>(type: "numeric", nullable: false),
+                    SalesOrderId = table.Column<Guid>(type: "uuid", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_SalesOrderLine", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_SalesOrderLine_Orders_SalesOrderId",
+                        name: "FK_SalesOrderLine_SalesOrders_SalesOrderId",
                         column: x => x.SalesOrderId,
-                        principalTable: "Orders",
-                        principalColumn: "Id");
+                        principalTable: "SalesOrders",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
@@ -54,7 +57,7 @@ namespace WebApi.Migrations
                 name: "SalesOrderLine");
 
             migrationBuilder.DropTable(
-                name: "Orders");
+                name: "SalesOrders");
         }
     }
 }

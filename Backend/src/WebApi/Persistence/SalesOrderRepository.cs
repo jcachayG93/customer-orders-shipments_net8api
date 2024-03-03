@@ -21,8 +21,7 @@ public class SalesOrderRepository
 
     public async Task<ISalesOrderRoot?> GetByIdAsync(EntityIdentity id)
     {
-        var result = await _dbContext.Orders
-            .AsNoTracking()
+        var result = await _dbContext.SalesOrders
             .Include(e => e.SalesOrderLines)
             .FirstOrDefaultAsync(o => o.Id == id.Value);
 

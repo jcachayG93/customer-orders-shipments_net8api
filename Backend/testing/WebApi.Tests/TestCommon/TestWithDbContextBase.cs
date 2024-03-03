@@ -24,6 +24,10 @@ public abstract class TestWithDbContextBase
             .UseSqlite(_connection)
             .Options;
 
-        return new(contextOptions);
+        var result = new AppDbContext(contextOptions);
+        
+        result.Database.Migrate();
+
+        return result;
     }
 }
