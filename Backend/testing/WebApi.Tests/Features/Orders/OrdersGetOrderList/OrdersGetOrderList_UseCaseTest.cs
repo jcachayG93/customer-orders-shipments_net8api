@@ -1,20 +1,19 @@
-﻿
-using System.Net.Http.Json;
+﻿using System.Net.Http.Json;
 using Domain.Entities.OrderAggregate;
 using Domain.ValueObjects;
-using WebApi.Features.OrdersGetOrderList;
+using WebApi.Features.Orders.OrdersGetOrderList;
 using WebApi.Tests.TestCommon;
 
-namespace WebApi.Tests.Features.OrdersGetOrderList;
+namespace WebApi.Tests.Features.Orders.OrdersGetOrderList;
 
 [Collection("Sequential")]
-public class Feature2_OrdersGetOrderListQuery_IntegrationTests 
+public class OrdersGetOrderList_UseCaseTest 
 : IntegrationTestsBase
 {
     private readonly CustomApplicationFactory _applicationFactory;
     private readonly HttpClient _client;
 
-    public Feature2_OrdersGetOrderListQuery_IntegrationTests()
+    public OrdersGetOrderList_UseCaseTest()
     {
         _applicationFactory = CreateApplicationFactory();
         _client = _applicationFactory.CreateClient();

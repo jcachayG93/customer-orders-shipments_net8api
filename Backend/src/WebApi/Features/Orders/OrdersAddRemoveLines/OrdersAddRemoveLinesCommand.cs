@@ -3,10 +3,10 @@ using Domain.ValueObjects;
 using FluentValidation;
 using MediatR;
 using WebApi.Exceptions;
-using WebApi.Persistence;
+using WebApi.Features.Orders.Common;
 using ValidationException = WebApi.Exceptions.ValidationException;
 
-namespace WebApi.Features.OrdersAddRemoveLines;
+namespace WebApi.Features.Orders.OrdersAddRemoveLines;
 
 public class OrdersAddRemoveLinesCommand : IRequest
 {

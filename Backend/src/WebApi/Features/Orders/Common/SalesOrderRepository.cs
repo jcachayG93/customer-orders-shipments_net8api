@@ -2,7 +2,7 @@
 using Domain.ValueObjects;
 using Microsoft.EntityFrameworkCore;
 
-namespace WebApi.Persistence;
+namespace WebApi.Features.Orders.Common;
 
 public class SalesOrderRepository
 : ISalesOrdersRepository

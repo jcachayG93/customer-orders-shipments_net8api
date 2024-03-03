@@ -1,5 +1,4 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using WebApi.Persistence;
 
 namespace WebApi.Tests.TestCommon;
 

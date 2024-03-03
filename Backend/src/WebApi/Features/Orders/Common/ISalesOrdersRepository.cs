@@ -1,7 +1,7 @@
 ﻿using Domain.Entities.OrderAggregate;
 using Domain.ValueObjects;
 
-namespace WebApi.Persistence;
+namespace WebApi.Features.Orders.Common;
 
 /// <summary>
 /// Domain Driven Design repository (DDD), abstracts the underlying storage technology.

@@ -2,11 +2,11 @@
 using Domain.ValueObjects;
 using Moq;
 using WebApi.Exceptions;
-using WebApi.Features.OrdersAddRemoveLines;
-using WebApi.Persistence;
+using WebApi.Features.Orders.Common;
+using WebApi.Features.Orders.OrdersAddRemoveLines;
 using WebApi.Tests.TestCommon;
 
-namespace WebApi.Tests.Features.Feature3_OrdersAddRemoveLinesCommand;
+namespace WebApi.Tests.Features.Orders.OrdersAddRemoveLines;
 
 public class OrdersAddRemoveLinesCommandTests
 {

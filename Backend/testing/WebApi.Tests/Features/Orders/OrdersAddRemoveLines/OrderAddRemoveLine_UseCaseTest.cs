@@ -2,19 +2,19 @@
 using Domain.Entities.OrderAggregate;
 using Domain.ValueObjects;
 using Microsoft.EntityFrameworkCore;
-using WebApi.Features.OrdersAddRemoveLines;
+using WebApi.Features.Orders.OrdersAddRemoveLines;
 using WebApi.Tests.TestCommon;
 
-namespace WebApi.Tests.Features.Feature3_OrdersAddRemoveLinesCommand;
+namespace WebApi.Tests.Features.Orders.OrdersAddRemoveLines;
 
 [Collection("Sequential")]
-public class Feature3_ORdersAddRemoveLines_IntegrationTests
+public class OrderAddRemoveLine_UseCaseTest
     : IntegrationTestsBase
 {
     private readonly CustomApplicationFactory _applicationFactory;
     private readonly HttpClient _client;
 
-    public Feature3_ORdersAddRemoveLines_IntegrationTests()
+    public OrderAddRemoveLine_UseCaseTest()
     {
         _applicationFactory = CreateApplicationFactory();
         _client = _applicationFactory.CreateClient();

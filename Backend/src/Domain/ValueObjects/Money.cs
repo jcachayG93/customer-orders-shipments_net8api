@@ -26,8 +26,3 @@ public record Money
         return new Money(Currency.Dollars, amount);
     }
 }
-
-public enum Currency
-{
-    Dollars
-}
