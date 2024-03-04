@@ -1,4 +1,5 @@
 ﻿using System.Net.Http.Json;
+using Domain.Entities.OrderAggregate;
 using Microsoft.EntityFrameworkCore;
 using WebApi.Features.Orders.OrdersCreate;
 using WebApi.Tests.TestCommon;
@@ -22,20 +23,20 @@ public class OrdersCreate_UseCaseTest : IntegrationTestsBase
     {
         // ************ ARRANGE ************
 
-        var command = new OrdersCreateOrderCommand()
+        OrdersCreateOrderCommand command = new OrdersCreateOrderCommand()
         {
             OrderId = Guid.NewGuid()
         };
         
-        var endpoint = $"api/sale-orders/{command.OrderId}";
+        string endpoint = $"api/sale-orders/{command.OrderId}";
         
         // ************ ACT ************
 
-        var response = await _client.PostAsJsonAsync(endpoint, command);
+        HttpResponseMessage response = await _client.PostAsJsonAsync(endpoint, command);
         
         // ************ ASSERT ************
 
-        var entities = _factory.GetEntities(db =>
+        ICollection<SalesOrder> entities = _factory.GetEntities(db =>
             db.SalesOrders.AsNoTracking().ToList());
 
         Assert.Single(entities);
@@ -50,23 +51,23 @@ public class OrdersCreate_UseCaseTest : IntegrationTestsBase
     {
         // ************ ARRANGE ************
         
-        var command = new OrdersCreateOrderCommand()
+        OrdersCreateOrderCommand command = new OrdersCreateOrderCommand()
         {
             OrderId = Guid.NewGuid()
         };
         
-        var endpoint = $"api/sale-orders/{command.OrderId}";
+        string endpoint = $"api/sale-orders/{command.OrderId}";
         
         // ************ ACT ************
 
-        for (var i = 0; i < 10; i++)
+        for (int i = 0; i < 10; i++)
         {
             await _client.PostAsJsonAsync(endpoint, command);
         }
         
         // ************ ASSERT ************
 
-        var entities = _factory.GetEntities(db =>
+        ICollection<SalesOrder> entities = _factory.GetEntities(db =>
             db.SalesOrders.AsNoTracking().ToList());
 
         Assert.Single(entities);

@@ -20,29 +20,29 @@ public class GlobalExceptionHandlerTests
         // ************ ARRANGE ************
         
         // Will force the CreateOrder use case to throw an exception
-        var repository = new Mock<ISalesOrdersRepository>();
+        Mock<ISalesOrdersRepository> repository = new Mock<ISalesOrdersRepository>();
         repository.Setup(x => x.AddAsync(It.IsAny<SalesOrder>()))
             .ThrowsAsync(new EntityNotFoundException("The order does not exist."));
         
 
-        var factory = CreateApplicationFactory(services =>
+        CustomApplicationFactory factory = CreateApplicationFactory(services =>
         {
             services.TestReplaceScopedService<ISalesOrdersRepository, SalesOrderRepository>(
                 typeof(SalesOrderRepository), _ => repository.Object);
         });
 
-        var client = factory.CreateClient();
+        HttpClient client = factory.CreateClient();
 
-        var endpoint = "api/sale-orders/" + Guid.NewGuid().ToString();
+        string endpoint = "api/sale-orders/" + Guid.NewGuid().ToString();
         
         // ************ ACT ************
 
-        var response = await client.PostAsync(endpoint, null);
+        HttpResponseMessage response = await client.PostAsync(endpoint, null);
         
         // ************ ASSERT ************
 
         Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
-        var result = await response.Content.ReadFromJsonAsync<ProblemDetails>();
+        ProblemDetails? result = await response.Content.ReadFromJsonAsync<ProblemDetails>();
 
         Assert.NotNull(result);
         Assert.Equal("The order does not exist.", result.Detail);

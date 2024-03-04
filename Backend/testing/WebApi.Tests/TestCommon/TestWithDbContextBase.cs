@@ -21,11 +21,11 @@ public abstract class TestWithDbContextBase
 
     protected AppDbContext CreateDbContext()
     {
-        var contextOptions = new DbContextOptionsBuilder<AppDbContext>()
+        DbContextOptions<AppDbContext> contextOptions = new DbContextOptionsBuilder<AppDbContext>()
             .UseSqlite(_connection)
             .Options;
 
-        var result = new AppDbContext(contextOptions, Mock.Of<IDomainEventDispatcher>());
+        AppDbContext result = new AppDbContext(contextOptions, Mock.Of<IDomainEventDispatcher>());
         
         result.Database.Migrate();
 

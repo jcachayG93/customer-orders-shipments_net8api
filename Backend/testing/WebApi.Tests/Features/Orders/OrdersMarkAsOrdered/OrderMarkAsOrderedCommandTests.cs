@@ -12,7 +12,7 @@ public class OrderMarkAsOrderedCommandTests
     
     private Mock<ISalesOrdersRepository> CreateRepository(ISalesOrderRoot? getByIdReturns)
     {
-        var result = new Mock<ISalesOrdersRepository>();
+        Mock<ISalesOrdersRepository> result = new Mock<ISalesOrdersRepository>();
         result.Setup(x => x.GetByIdAsync(It.IsAny<EntityIdentity>())
             .Result).Returns(getByIdReturns);
 
@@ -42,15 +42,15 @@ public class OrderMarkAsOrderedCommandTests
     {
         // ************ ARRANGE ************
 
-        var repository = CreateRepository(null);
+        Mock<ISalesOrdersRepository> repository = CreateRepository(null);
 
-        var command = CreateCommand();
+        OrderMarkAsOrderedCommand command = CreateCommand();
 
-        var sut = CreateSut(repository.Object);
+        OrderMarkAsOrderedCommand.Handler sut = CreateSut(repository.Object);
 
         // ************ ACT ************
 
-        var result = await Record
+        Exception? result = await Record
             .ExceptionAsync(async () => await sut.Handle(command, CancellationToken.None));
 
         // ************ ASSERT ************
@@ -65,13 +65,13 @@ public class OrderMarkAsOrderedCommandTests
     {
         // ************ ARRANGE ************
 
-        var aggregate = CreateSalesOrder();
+        Mock<ISalesOrderRoot> aggregate = CreateSalesOrder();
 
-        var repository = CreateRepository(aggregate.Object);
+        Mock<ISalesOrdersRepository> repository = CreateRepository(aggregate.Object);
 
-        var command = CreateCommand();
+        OrderMarkAsOrderedCommand command = CreateCommand();
 
-        var sut = CreateSut(repository.Object);
+        OrderMarkAsOrderedCommand.Handler sut = CreateSut(repository.Object);
         
         // ************ ACT ************
 

@@ -14,7 +14,7 @@ public class TestValidatorMock<T>
         _moq = new();
         _errors = new();
 
-        var validationResult = new ValidationResult(_errors);
+        ValidationResult validationResult = new ValidationResult(_errors);
         
         _moq.Setup(x =>
                 x.Validate(It.IsAny<T>()))

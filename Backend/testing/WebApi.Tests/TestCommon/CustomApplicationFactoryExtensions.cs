@@ -26,7 +26,7 @@ public static class CustomApplicationFactoryExtensions
     public static ICollection<TEntity> GetEntities<TEntity>(this CustomApplicationFactory customApplicationFactory,
         Func<AppDbContext, ICollection<TEntity>> query)
     {
-        using var scope = customApplicationFactory.GetService(out AppDbContext dbContext);
+        using IServiceScope scope = customApplicationFactory.GetService(out AppDbContext dbContext);
 
         return query(dbContext);
     }
@@ -38,7 +38,7 @@ public static class CustomApplicationFactoryExtensions
         ICollection<TEntity> entities)
         where TEntity : class
     {
-        using var scope = customApplicationFactory.GetService(out AppDbContext dbContext);
+        using IServiceScope scope = customApplicationFactory.GetService(out AppDbContext dbContext);
         
         dbContext.AddRange(entities);
         dbContext.SaveChanges();

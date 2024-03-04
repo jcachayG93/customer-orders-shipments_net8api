@@ -14,9 +14,9 @@ public class OrdersAddRemoveLinesCommandTests
     private Mock<ISalesOrdersRepository> CreateRepositoryMock(
         params ISalesOrderRoot[] getReturns)
     {
-        var repository = new Mock<ISalesOrdersRepository>();
+        Mock<ISalesOrdersRepository> repository = new Mock<ISalesOrdersRepository>();
 
-        foreach (var aggregate in getReturns)
+        foreach (ISalesOrderRoot aggregate in getReturns)
         {
             repository.Setup(x =>
                     x.GetByIdAsync(new(aggregate.Id)).Result)
@@ -29,8 +29,8 @@ public class OrdersAddRemoveLinesCommandTests
 
     private Mock<ISalesOrderRoot> CreateSalesOrderMock()
     {
-        var result = new Mock<ISalesOrderRoot>();
-        var id = Guid.NewGuid();
+        Mock<ISalesOrderRoot> result = new Mock<ISalesOrderRoot>();
+        Guid id = Guid.NewGuid();
         result.Setup(x => x.Id)
             .Returns(id);
 
@@ -75,15 +75,15 @@ public class OrdersAddRemoveLinesCommandTests
         
         _validator.SetupIsValid(false);
 
-        var command = CreateCommand(Guid.NewGuid());
+        OrdersAddRemoveLinesCommand command = CreateCommand(Guid.NewGuid());
 
-        var repository = CreateRepositoryMock();
+        Mock<ISalesOrdersRepository> repository = CreateRepositoryMock();
 
-        var sut = CreateSut(repository.Object);
+        OrdersAddRemoveLinesCommand.Handler sut = CreateSut(repository.Object);
         
         // ************ ACT ************
 
-        var result = await Record.ExceptionAsync(async () => await sut.Handle(command, CancellationToken.None));
+        Exception? result = await Record.ExceptionAsync(async () => await sut.Handle(command, CancellationToken.None));
 
         // ************ ASSERT ************
 
@@ -97,14 +97,14 @@ public class OrdersAddRemoveLinesCommandTests
     {
         // ************ ARRANGE ************
 
-        var aggregate = CreateSalesOrderMock();
+        Mock<ISalesOrderRoot> aggregate = CreateSalesOrderMock();
         
-        var command = CreateCommand(aggregate.Object.Id);
+        OrdersAddRemoveLinesCommand command = CreateCommand(aggregate.Object.Id);
         
-        var repository = CreateRepositoryMock(
+        Mock<ISalesOrdersRepository> repository = CreateRepositoryMock(
             aggregate.Object);
 
-        var sut = CreateSut(repository.Object);
+        OrdersAddRemoveLinesCommand.Handler sut = CreateSut(repository.Object);
 
         // ************ ACT ************
 
@@ -120,15 +120,15 @@ public class OrdersAddRemoveLinesCommandTests
     {
         // ************ ARRANGE ************
 
-        var repository = CreateRepositoryMock();
+        Mock<ISalesOrdersRepository> repository = CreateRepositoryMock();
         
-        var command = CreateCommand(Guid.NewGuid());
+        OrdersAddRemoveLinesCommand command = CreateCommand(Guid.NewGuid());
 
-        var sut = CreateSut(repository.Object);
+        OrdersAddRemoveLinesCommand.Handler sut = CreateSut(repository.Object);
 
         // ************ ACT ************
 
-        var result = await Record.ExceptionAsync(async () => await sut.Handle(command, CancellationToken.None));
+        Exception? result = await Record.ExceptionAsync(async () => await sut.Handle(command, CancellationToken.None));
 
         // ************ ASSERT ************
 
@@ -141,19 +141,19 @@ public class OrdersAddRemoveLinesCommandTests
     {
         // ************ ARRANGE ************
 
-        var lineToDeleteId = EntityIdentity.Random;
-        var lineToKeep = EntityIdentity.Random;
+        EntityIdentity lineToDeleteId = EntityIdentity.Random;
+        EntityIdentity lineToKeep = EntityIdentity.Random;
 
-        var aggregate = CreateSalesOrderMock();
+        Mock<ISalesOrderRoot> aggregate = CreateSalesOrderMock();
         aggregate.Setup(x => x.GetLineIds())
             .Returns(lineToDeleteId.ToCollection(lineToKeep));
 
-        var repository = CreateRepositoryMock(aggregate.Object);
+        Mock<ISalesOrdersRepository> repository = CreateRepositoryMock(aggregate.Object);
         
-        var commandLine1 = CreateLine(lineToKeep.Value);
-        var command = CreateCommand(aggregate.Object.Id, commandLine1);
+        OrdersAddRemoveLinesCommand.OrderLineDto commandLine1 = CreateLine(lineToKeep.Value);
+        OrdersAddRemoveLinesCommand command = CreateCommand(aggregate.Object.Id, commandLine1);
 
-        var sut = CreateSut(repository.Object);
+        OrdersAddRemoveLinesCommand.Handler sut = CreateSut(repository.Object);
         
         // ************ ACT ************
 
@@ -176,13 +176,13 @@ public class OrdersAddRemoveLinesCommandTests
     {
         // ************ ARRANGE ************
 
-        var aggregate = CreateSalesOrderMock();
-        var repository = CreateRepositoryMock(aggregate.Object);
+        Mock<ISalesOrderRoot> aggregate = CreateSalesOrderMock();
+        Mock<ISalesOrdersRepository> repository = CreateRepositoryMock(aggregate.Object);
         
-        var line = CreateLine(Guid.NewGuid());
-        var command = CreateCommand(aggregate.Object.Id, line);
+        OrdersAddRemoveLinesCommand.OrderLineDto line = CreateLine(Guid.NewGuid());
+        OrdersAddRemoveLinesCommand command = CreateCommand(aggregate.Object.Id, line);
 
-        var sut = CreateSut(repository.Object);
+        OrdersAddRemoveLinesCommand.Handler sut = CreateSut(repository.Object);
 
         // Line does not exist in the aggregate so it will be added.
         aggregate.Setup(x => x.DoesLineExists(new(line.OrderLineId)))
@@ -207,13 +207,13 @@ public class OrdersAddRemoveLinesCommandTests
     {
         // ************ ARRANGE ************
 
-        var aggregate = CreateSalesOrderMock();
-        var repository = CreateRepositoryMock(aggregate.Object);
+        Mock<ISalesOrderRoot> aggregate = CreateSalesOrderMock();
+        Mock<ISalesOrdersRepository> repository = CreateRepositoryMock(aggregate.Object);
         
-        var line = CreateLine(Guid.NewGuid());
-        var command = CreateCommand(aggregate.Object.Id, line);
+        OrdersAddRemoveLinesCommand.OrderLineDto line = CreateLine(Guid.NewGuid());
+        OrdersAddRemoveLinesCommand command = CreateCommand(aggregate.Object.Id, line);
 
-        var sut = CreateSut(repository.Object);
+        OrdersAddRemoveLinesCommand.Handler sut = CreateSut(repository.Object);
 
         // Line DOES exist in the aggregate so it will be updated
         aggregate.Setup(x => x.DoesLineExists(new(line.OrderLineId)))
@@ -238,13 +238,13 @@ public class OrdersAddRemoveLinesCommandTests
     {
         // ************ ARRANGE ************
 
-        var aggregate = CreateSalesOrderMock();
-        var repository = CreateRepositoryMock(aggregate.Object);
+        Mock<ISalesOrderRoot> aggregate = CreateSalesOrderMock();
+        Mock<ISalesOrdersRepository> repository = CreateRepositoryMock(aggregate.Object);
         
-        var line = CreateLine(Guid.NewGuid());
-        var command = CreateCommand(aggregate.Object.Id, line);
+        OrdersAddRemoveLinesCommand.OrderLineDto line = CreateLine(Guid.NewGuid());
+        OrdersAddRemoveLinesCommand command = CreateCommand(aggregate.Object.Id, line);
 
-        var sut = CreateSut(repository.Object);
+        OrdersAddRemoveLinesCommand.Handler sut = CreateSut(repository.Object);
 
         // Line does not exist in the aggregate so it will be added.
         aggregate.Setup(x => x.DoesLineExists(new(line.OrderLineId)))

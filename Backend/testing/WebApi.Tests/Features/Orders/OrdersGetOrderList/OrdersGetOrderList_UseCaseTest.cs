@@ -20,13 +20,13 @@ public class OrdersGetOrderList_UseCaseTest
     }
     private SalesOrder CreateSalesOrderWithLines()
     {
-        var rng = new Random();
+        Random rng = new Random();
         
-        var result = new SalesOrder(EntityIdentity.Random);
-        for (var i = 0; i < 5; i++)
+        SalesOrder result = new SalesOrder(EntityIdentity.Random);
+        for (int i = 0; i < 5; i++)
         {
-            var quantity = rng.Next(1, 10);
-            var unitPrice = (decimal)rng.Next(10, 30);
+            int quantity = rng.Next(1, 10);
+            decimal unitPrice = (decimal)rng.Next(10, 30);
             result.AddLine(
                 EntityIdentity.Random,
                 new(Guid.NewGuid().ToString()),
@@ -42,26 +42,26 @@ public class OrdersGetOrderList_UseCaseTest
     {
         // ************ ARRANGE ************
 
-        var orders = Enumerable.Range(0, 10)
+        SalesOrder[] orders = Enumerable.Range(0, 10)
             .Select(i => CreateSalesOrderWithLines())
             .ToArray();
 
         _applicationFactory.AddEntitiesToDatabase(orders);
 
-        var endpoint = "api/sale-orders/";
+        string endpoint = "api/sale-orders/";
         
         // ************ ACT ************
 
-        var response = await _client.GetFromJsonAsync<ICollection<SalesOrderLookup>>(endpoint);
+        ICollection<SalesOrderLookup>? response = await _client.GetFromJsonAsync<ICollection<SalesOrderLookup>>(endpoint);
         
         // ************ ASSERT ************
 
         Assert.NotNull(response);
         Assert.Equal(10, response.Count);
 
-        foreach (var resultingLookup in response)
+        foreach (SalesOrderLookup resultingLookup in response)
         {
-            var input = orders
+            SalesOrder input = orders
                 .First(o => o.Id == resultingLookup.OrderId);
             
             Assert.Equal(input.Total, resultingLookup.Total);

@@ -53,8 +53,8 @@ public abstract class IntegrationTestsBase : IDisposable
             typeof(AppContext),
             sp =>
             {
-                var dispatcher = sp.GetService<IDomainEventDispatcher>()!;
-                var result = new AppDbContext(contextOptions, dispatcher);
+                IDomainEventDispatcher dispatcher = sp.GetService<IDomainEventDispatcher>()!;
+                AppDbContext result = new AppDbContext(contextOptions, dispatcher);
                 result.Database.Migrate();
                 return result;
             });

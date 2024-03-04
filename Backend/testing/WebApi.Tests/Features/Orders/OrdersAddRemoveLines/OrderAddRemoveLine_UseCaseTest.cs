@@ -25,11 +25,11 @@ public class OrderAddRemoveLine_UseCaseTest
     {
         // ************ ARRANGE ************
 
-        var existingOrder = new SalesOrder(EntityIdentity.Random);
+        SalesOrder existingOrder = new SalesOrder(EntityIdentity.Random);
 
         _applicationFactory.AddEntitiesToDatabase(existingOrder.ToCollection());
 
-        var lines = new OrdersAddRemoveLinesCommand.OrderLineDto()
+        OrdersAddRemoveLinesCommand.OrderLineDto lines = new OrdersAddRemoveLinesCommand.OrderLineDto()
         {
             OrderLineId = Guid.NewGuid(),
             Product = "Small bolt",
@@ -37,13 +37,13 @@ public class OrderAddRemoveLine_UseCaseTest
             UnitPrice = 0.03M
         };
 
-        var command = new OrdersAddRemoveLinesCommand()
+        OrdersAddRemoveLinesCommand command = new OrdersAddRemoveLinesCommand()
         {
             OrderId = existingOrder.Id,
             Lines = lines.ToCollection()
         };
 
-        var endpoint = "api/sale-orders/add-remove-lines";
+        string endpoint = "api/sale-orders/add-remove-lines";
 
         // ************ ACT ************
 
@@ -51,7 +51,7 @@ public class OrderAddRemoveLine_UseCaseTest
 
         // ************ ASSERT ************
 
-        var result = _applicationFactory.GetEntities(db =>
+        ICollection<SalesOrder> result = _applicationFactory.GetEntities(db =>
             db.SalesOrders.AsNoTracking().Include(e => e.SalesOrderLines).ToArray());
 
         /*

@@ -10,13 +10,13 @@ public class PackingListTests
     {
         // ************ ARRANGE ************
 
-        var id = EntityIdentity.Random;
+        EntityIdentity id = EntityIdentity.Random;
 
-        var orderId = EntityIdentity.Random;
+        EntityIdentity orderId = EntityIdentity.Random;
         
         // ************ ACT ************
 
-        var result = new PackingList(id, orderId);
+        PackingList result = new PackingList(id, orderId);
 
         // ************ ASSERT ************
 
@@ -29,10 +29,10 @@ public class PackingListTests
     {
         // ************ ARRANGE ************
 
-        var sut = new PackingList(EntityIdentity.Random, EntityIdentity.Random);
+        PackingList sut = new PackingList(EntityIdentity.Random, EntityIdentity.Random);
 
-        var line1Id = EntityIdentity.Random;
-        var line2Id = EntityIdentity.Random;
+        EntityIdentity line1Id = EntityIdentity.Random;
+        EntityIdentity line2Id = EntityIdentity.Random;
         
         // ************ ACT ************
         

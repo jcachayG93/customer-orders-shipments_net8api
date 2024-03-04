@@ -23,13 +23,13 @@ public class OrdersMarkAsOrdered_UseCaseTests
     {
         // ************ ARRANGE ************
 
-        var existingOrder = new SalesOrder(EntityIdentity.Random);
+        SalesOrder existingOrder = new SalesOrder(EntityIdentity.Random);
         
         Assert.False(existingOrder.IsOrdered);
         
         _applicationFactory.AddEntitiesToDatabase(existingOrder.ToCollection());
 
-        var endpoint = $"api/sale-orders/{existingOrder.Id}/mark-ordered";
+        string endpoint = $"api/sale-orders/{existingOrder.Id}/mark-ordered";
         
         // ************ ACT ************
 
@@ -37,7 +37,7 @@ public class OrdersMarkAsOrdered_UseCaseTests
         
         // ************ ASSERT ************
 
-        var orders = _applicationFactory.GetEntities(db =>
+        ICollection<SalesOrder> orders = _applicationFactory.GetEntities(db =>
             db.SalesOrders.AsNoTracking().ToArray());
 
         Assert.Single(orders);

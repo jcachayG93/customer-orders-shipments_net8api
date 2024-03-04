@@ -1,4 +1,5 @@
-﻿using WebApi.Features.Orders.OrdersAddRemoveLines;
+﻿using FluentValidation.Results;
+using WebApi.Features.Orders.OrdersAddRemoveLines;
 
 namespace WebApi.Tests.Features.Orders.OrdersAddRemoveLines;
 
@@ -38,13 +39,13 @@ public class OrdersAddRemoveLinesCommandValidatorTests
             UnitPrice = 10M
         };
 
-        var command = CreateCommand(line);
+        OrdersAddRemoveLinesCommand command = CreateCommand(line);
 
-        var sut = CreateSut();
+        OrdersAddRemoveLinesCommandValidator sut = CreateSut();
 
         // ************ ACT ************
 
-        var result = sut.Validate(command);
+        ValidationResult? result = sut.Validate(command);
 
         // ************ ASSERT ************
         
@@ -74,13 +75,13 @@ public class OrdersAddRemoveLinesCommandValidatorTests
             UnitPrice = unitPrice
         };
 
-        var command = CreateCommand(line);
+        OrdersAddRemoveLinesCommand command = CreateCommand(line);
 
-        var sut = CreateSut();
+        OrdersAddRemoveLinesCommandValidator sut = CreateSut();
         
         // ************ ACT ************
 
-        var result = sut.Validate(command);
+        ValidationResult? result = sut.Validate(command);
         
         // ************ ASSERT ************
         
@@ -103,16 +104,16 @@ public class OrdersAddRemoveLinesCommandValidatorTests
     {
         // ************ ARRANGE ************
 
-        var line1 = CreateLine(productName1);
-        var line2 = CreateLine(productName2);
+        OrdersAddRemoveLinesCommand.OrderLineDto line1 = CreateLine(productName1);
+        OrdersAddRemoveLinesCommand.OrderLineDto line2 = CreateLine(productName2);
 
-        var command = CreateCommand(line1, line2);
+        OrdersAddRemoveLinesCommand command = CreateCommand(line1, line2);
 
-        var sut = CreateSut();
+        OrdersAddRemoveLinesCommandValidator sut = CreateSut();
 
         // ************ ACT ************
 
-        var result = sut.Validate(command);
+        ValidationResult? result = sut.Validate(command);
 
         // ************ ASSERT ************
         

@@ -18,7 +18,7 @@ public static class TestServiceCollectionExtensions
         Func<IServiceProvider, object> factory)
     where TNewImplementation : TDefinition
     {
-        var old = ServiceDescriptor.Scoped(
+        ServiceDescriptor old = ServiceDescriptor.Scoped(
             typeof(TDefinition), currentImplementationType);
 
         services.Remove(old);

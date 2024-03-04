@@ -9,14 +9,14 @@ public class EntityTests
     {
         // ************ ARRANGE ************
 
-        var sut = new TestDouble();
+        TestDouble sut = new TestDouble();
 
-        var ev = new DomainEvent();
+        DomainEvent ev = new DomainEvent();
 
         // ************ ACT ************
 
         sut.Call_AddDomainEvent(ev);
-        var result = sut.DomainEvents;
+        IEnumerable<IDomainEvent> result = sut.DomainEvents;
         
         // ************ ASSERT ************
 

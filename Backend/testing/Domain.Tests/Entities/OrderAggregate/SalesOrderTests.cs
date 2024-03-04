@@ -110,9 +110,9 @@ public class SalesOrderTests
     {
         // ************ ARRANGE ************
 
-        var sut = CreateSut();
+        SalesOrder sut = CreateSut();
 
-        var lineId = EntityIdentity.Random;
+        EntityIdentity lineId = EntityIdentity.Random;
         
         sut.AddLine(lineId, new NonEmptyString("Tire 18 inch"),
             new GreaterThanZeroInteger(4), Money.CreateInDollars(99.99M));
@@ -134,11 +134,11 @@ public class SalesOrderTests
     {
         // ************ ARRANGE ************
 
-        var sut = CreateSut();
+        SalesOrder sut = CreateSut();
 
         // ************ ACT ************
 
-        var result = Record.Exception(()=>sut.RemoveLine(EntityIdentity.Random));
+        Exception? result = Record.Exception(()=>sut.RemoveLine(EntityIdentity.Random));
         
         // ************ ASSERT ************
 
@@ -150,8 +150,8 @@ public class SalesOrderTests
     {
         // ************ ARRANGE ************
 
-        var sut = CreateSut();
-        var lineId = EntityIdentity.Random;
+        SalesOrder sut = CreateSut();
+        EntityIdentity lineId = EntityIdentity.Random;
         
         sut.AddLine(lineId, new NonEmptyString("Bolts"),new(1000),
             Money.CreateInDollars(0.11M));
@@ -165,7 +165,7 @@ public class SalesOrderTests
 
         // ************ ASSERT ************
 
-        var result = sut.SalesOrderLines.First();
+        SalesOrderLine result = sut.SalesOrderLines.First();
         
         Assert.Equal("Large Bolts", result.Product);
         Assert.Equal(1110, result.Quantity);
@@ -183,11 +183,11 @@ public class SalesOrderTests
          */
         // ************ ARRANGE ************
 
-        var sut = CreateSut();
+        SalesOrder sut = CreateSut();
 
         // ************ ACT ************
 
-        var result = Record.Exception(()=>sut.UpdateLine(EntityIdentity.Random,
+        Exception? result = Record.Exception(()=>sut.UpdateLine(EntityIdentity.Random,
             new("Bolt"), new(300), Money.CreateInDollars(0.10M)));
         
         // ************ ASSERT ************
@@ -202,9 +202,9 @@ public class SalesOrderTests
     {
         // ************ ARRANGE ************
 
-        var sut = CreateSut();
+        SalesOrder sut = CreateSut();
 
-        var line1Id = EntityIdentity.Random;
+        EntityIdentity line1Id = EntityIdentity.Random;
         sut.AddLine(line1Id, new("Bolt"), new GreaterThanZeroInteger(10),
             Money.CreateInDollars(1));
 
@@ -240,14 +240,14 @@ public class SalesOrderTests
         
         // ************ ARRANGE ************
 
-        var sut = CreateSut();
+        SalesOrder sut = CreateSut();
         sut.MarkAsOrdered();
 
         Assert.Single(sut.DomainEvents);
 
         // ************ ACT ************
 
-        for (var i = 0; i < 10; i++)
+        for (int i = 0; i < 10; i++)
         {
             sut.MarkAsOrdered();
         }
@@ -265,17 +265,17 @@ public class SalesOrderTests
     {
         // ************ ARRANGE ************
 
-        var sut = CreateSut();
+        SalesOrder sut = CreateSut();
 
-        var existingLineId = EntityIdentity.Random;
-        var queryLineId = lineExists ? existingLineId : EntityIdentity.Random;
+        EntityIdentity existingLineId = EntityIdentity.Random;
+        EntityIdentity queryLineId = lineExists ? existingLineId : EntityIdentity.Random;
         
         sut.AddLine(existingLineId, new NonEmptyString("Dog Food Bag"),
             new(10), Money.CreateInDollars(100));
 
         // ************ ACT ************
 
-        var result = sut.DoesLineExists(queryLineId);
+        bool result = sut.DoesLineExists(queryLineId);
 
         // ************ ASSERT ************
         
@@ -288,9 +288,9 @@ public class SalesOrderTests
     {
         // ************ ARRANGE ************
 
-        var sut = CreateSut();
-        var id1 = EntityIdentity.Random;
-        var id2 = EntityIdentity.Random;
+        SalesOrder sut = CreateSut();
+        EntityIdentity id1 = EntityIdentity.Random;
+        EntityIdentity id2 = EntityIdentity.Random;
         
         sut.AddLine(id1, new NonEmptyString("Dog Food Bag"),
             new(10), Money.CreateInDollars(100));
@@ -300,7 +300,7 @@ public class SalesOrderTests
         
         // ************ ACT ************
 
-        var result = sut.GetLineIds();
+        ICollection<EntityIdentity> result = sut.GetLineIds();
 
         // ************ ASSERT ************
         

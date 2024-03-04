@@ -25,7 +25,7 @@ public class PackingListCreate_UseCaseTests
 
     private static SalesOrder CreateSalesOrderWithOneLine()
     {
-        var result = new SalesOrder(EntityIdentity.Random);
+        SalesOrder result = new SalesOrder(EntityIdentity.Random);
         result.AddLine(EntityIdentity.Random, new NonEmptyString("Bolt"),
             new(10), Money.CreateInDollars(100));
         
@@ -42,10 +42,10 @@ public class PackingListCreate_UseCaseTests
     {
         // ************ ARRANGE ************
 
-        var existingSalesOrder = CreateSalesOrderWithOneLine();
+        SalesOrder existingSalesOrder = CreateSalesOrderWithOneLine();
         _applicationFactory.AddEntitiesToDatabase(existingSalesOrder.ToCollection());
 
-        var endPoint = CreateMarkAsOrderedEndpoint(existingSalesOrder.Id);
+        string endPoint = CreateMarkAsOrderedEndpoint(existingSalesOrder.Id);
         
         // ************ ACT ************
 
@@ -53,7 +53,7 @@ public class PackingListCreate_UseCaseTests
         
         // ************ ASSERT ************
 
-        var result = _applicationFactory.GetEntities(db =>
+        ICollection<PackingList> result = _applicationFactory.GetEntities(db =>
             db.PackingLists.AsNoTracking().Include(l=>l.Lines).ToArray());
 
         Assert.Single(result);
@@ -61,7 +61,7 @@ public class PackingListCreate_UseCaseTests
         Assert.Contains(result, x =>
             x.OrderId == existingSalesOrder.Id);
 
-        var packingList = result.First();
+        PackingList packingList = result.First();
         Assert.Single(packingList.Lines);
 
         Assert.Contains(packingList.Lines, l =>
@@ -88,23 +88,23 @@ public class PackingListCreate_UseCaseTests
         // ************ ARRANGE ************
         
         // Force the Packinglist repository to throw an exception on add.
-        var packingListRepo = new Mock<IPackingListRepository>();
+        Mock<IPackingListRepository> packingListRepo = new Mock<IPackingListRepository>();
         packingListRepo.Setup(x => x.AddAsync(It.IsAny<PackingList>()))
             .ThrowsAsync(new Exception());
 
         // Replace the IPackingListRepository in the DI Container so it returns the one that throws an exception
         // (defined in the previous line)
-        var applicationFactory = CreateApplicationFactory(services =>
+        CustomApplicationFactory applicationFactory = CreateApplicationFactory(services =>
             services.TestReplaceScopedService<IPackingListRepository, PackingListRepository>(
                 typeof(PackingListRepository), _ => packingListRepo.Object));
 
-        var client = applicationFactory.CreateClient();
+        HttpClient client = applicationFactory.CreateClient();
 
-        var existingSalesOrder = CreateSalesOrderWithOneLine();
+        SalesOrder existingSalesOrder = CreateSalesOrderWithOneLine();
         
         applicationFactory.AddEntitiesToDatabase(existingSalesOrder.ToCollection());
 
-        var endpoint = CreateMarkAsOrderedEndpoint(existingSalesOrder.Id);
+        string endpoint = CreateMarkAsOrderedEndpoint(existingSalesOrder.Id);
 
         // ************ ACT ************
 
@@ -113,12 +113,12 @@ public class PackingListCreate_UseCaseTests
         // ************ ASSERT ************
         
         // The ordered was not marked as ordered
-        var orders = applicationFactory.GetEntities(db =>
+        ICollection<SalesOrder> orders = applicationFactory.GetEntities(db =>
             db.SalesOrders.AsNoTracking().ToArray());
         Assert.True(orders.All(o=>!o.IsOrdered));
         
         // No packing list was created
-        var packingLists = applicationFactory.GetEntities(db =>
+        ICollection<PackingList> packingLists = applicationFactory.GetEntities(db =>
             db.PackingLists.AsNoTracking().ToArray());
 
         Assert.Empty(packingLists);
@@ -134,22 +134,22 @@ public class PackingListCreate_UseCaseTests
          * This means ONE packing list. So, if we order the order multiple times then one is created the first time only.
          */
         
-        var existingSalesOrder = CreateSalesOrderWithOneLine();
+        SalesOrder existingSalesOrder = CreateSalesOrderWithOneLine();
         
         _applicationFactory.AddEntitiesToDatabase(existingSalesOrder.ToCollection());
 
-        var endpoint = CreateMarkAsOrderedEndpoint(existingSalesOrder.Id);
+        string endpoint = CreateMarkAsOrderedEndpoint(existingSalesOrder.Id);
 
         // ************ ACT ************
 
-        for (var i = 0; i < 10; i++)
+        for (int i = 0; i < 10; i++)
         {
             await _client.PostAsync(endpoint, null);
         }
         
         // ************ ASSERT ************
 
-        var packingLists = _applicationFactory.GetEntities(db =>
+        ICollection<PackingList> packingLists = _applicationFactory.GetEntities(db =>
             db.PackingLists.AsNoTracking().ToArray());
 
         Assert.Single(packingLists);

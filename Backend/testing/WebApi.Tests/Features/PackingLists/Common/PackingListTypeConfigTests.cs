@@ -13,7 +13,7 @@ public class PackingListTypeConfigTests
     {
         // ************ ARRANGE ************
 
-        var packingList = new PackingList(
+        PackingList packingList = new PackingList(
             EntityIdentity.Random, EntityIdentity.Random);
         
         packingList.AddLine(EntityIdentity.Random, new("Bolt"), new(10));
@@ -21,12 +21,12 @@ public class PackingListTypeConfigTests
         
         // ************ ACT ************
 
-        var db1 = CreateDbContext();
+        AppDbContext db1 = CreateDbContext();
         db1.Add(packingList);
         db1.SaveChanges();
 
-        var db2 = CreateDbContext();
-        var result = db2.PackingLists.Include(e=>e.Lines).First();
+        AppDbContext db2 = CreateDbContext();
+        PackingList result = db2.PackingLists.Include(e=>e.Lines).First();
         
         // ************ ASSERT ************
 
