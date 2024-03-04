@@ -2,6 +2,9 @@
 
 namespace Domain.ValueObjects;
 
+/// <summary>
+/// Represents money
+/// </summary>
 public record Money
 {
     private Money(Currency currency, decimal amount)
