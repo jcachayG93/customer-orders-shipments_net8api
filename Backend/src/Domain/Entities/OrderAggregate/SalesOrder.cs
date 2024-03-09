@@ -93,6 +93,7 @@ public class SalesOrder : Entity, ISalesOrderRoot
         ((SalesOrderLines as List<SalesOrderLine>)!).Add(line);
 
         AssertInvariants();
+        AssertOrderCanChange();
     }
 
     /// <summary>
@@ -107,6 +108,7 @@ public class SalesOrder : Entity, ISalesOrderRoot
             ((SalesOrderLines as List<SalesOrderLine>)!).Remove(match);
             
             AssertInvariants();
+            AssertOrderCanChange();
         }
     }
 
@@ -128,6 +130,7 @@ public class SalesOrder : Entity, ISalesOrderRoot
         line.UnitPrice = unitPrice.Amount;
         line.Quantity = quantity.Value;
         AssertInvariants();
+        AssertOrderCanChange();
     }
 
     public void MarkAsOrdered()

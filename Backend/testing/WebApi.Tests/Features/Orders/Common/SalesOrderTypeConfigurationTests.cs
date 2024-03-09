@@ -21,6 +21,9 @@ public class SalesOrderTypeConfigurationTests
             new(10),
             Money.CreateInDollars(0.95M));
 
+        salesOrder.AssertInvariantsWasCalled = false;
+        salesOrder.AssertOrderCanChangeWasCalled = false;
+
         // ************ ACT ************
 
         AppDbContext dbContext1 = CreateDbContext();

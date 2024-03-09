@@ -27,9 +27,6 @@ namespace WebApi.Migrations
                     b.Property<Guid>("Id")
                         .HasColumnType("uuid");
 
-                    b.Property<bool>("AssertInvariantsWasCalled")
-                        .HasColumnType("boolean");
-
                     b.Property<bool>("IsOrdered")
                         .HasColumnType("boolean");
 

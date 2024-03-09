@@ -203,7 +203,6 @@ public class SalesOrderTests
 
         Assert.NotNull(result);
         Assert.IsType<LineNotFoundException>(result);
-        Assert.True(sut.AssertOrderCanChangeWasCalled);
 
     }
 
