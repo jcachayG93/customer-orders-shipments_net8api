@@ -93,6 +93,7 @@ public class SalesOrder : Entity, ISalesOrderRoot
         ((SalesOrderLines as List<SalesOrderLine>)!).Add(line);
 
         AssertInvariants();
+        AssertOrderCanChange();
     }
 
     /// <summary>
@@ -107,6 +108,7 @@ public class SalesOrder : Entity, ISalesOrderRoot
             ((SalesOrderLines as List<SalesOrderLine>)!).Remove(match);
             
             AssertInvariants();
+            AssertOrderCanChange();
         }
     }
 
@@ -128,6 +130,7 @@ public class SalesOrder : Entity, ISalesOrderRoot
         line.UnitPrice = unitPrice.Amount;
         line.Quantity = quantity.Value;
         AssertInvariants();
+        AssertOrderCanChange();
     }
 
     public void MarkAsOrdered()
@@ -185,4 +188,19 @@ public class SalesOrder : Entity, ISalesOrderRoot
                 $"duplication: {name1}, {name2}");
         }
     }
+
+    /// <summary>
+    /// Business rule: When an order is ordered, it should be freezed.
+    /// Can't be changed as that would affect the data on an order that was already committed with a customer.
+    /// </summary>
+    public void AssertOrderCanChange()
+    {
+        AssertOrderCanChangeWasCalled = true;
+        if (IsOrdered)
+        {
+            throw new DomainException("Sales order cant be changed because has already been ordered");
+        }
+    }
+    
+    public bool AssertOrderCanChangeWasCalled { get; set; }
 }
