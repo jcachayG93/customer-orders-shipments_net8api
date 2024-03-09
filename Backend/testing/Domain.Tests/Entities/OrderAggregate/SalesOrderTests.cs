@@ -35,7 +35,7 @@ public class SalesOrderTests
     }
 
     [Fact]
-    public void AddOrderLine_AddsOrderLineWithCorrectValues_AssertsInvariants()
+    public void AddOrderLine_AddsOrderLineWithCorrectValues_AssertsInvariants_AssertsOrderCanChange()
     {
         // ************ ARRANGE ************
 
@@ -44,6 +44,7 @@ public class SalesOrderTests
         EntityIdentity lineId = EntityIdentity.Random;
 
         sut.AssertInvariantsWasCalled = false;
+        sut.AssertOrderCanChangeWasCalled = false;
 
         // ************ ACT ************
 
@@ -62,6 +63,7 @@ public class SalesOrderTests
         );
 
         Assert.True(sut.AssertInvariantsWasCalled);
+        Assert.True(sut.AssertOrderCanChangeWasCalled);
     }
 
     [Fact]
@@ -106,7 +108,7 @@ public class SalesOrderTests
     }
 
     [Fact]
-    public void RemoveLine_RemovesLine_AssertsInvariants()
+    public void RemoveLine_RemovesLine_AssertsInvariants_AssertsOrderCanChange()
     {
         // ************ ARRANGE ************
 
@@ -118,7 +120,8 @@ public class SalesOrderTests
             new GreaterThanZeroInteger(4), Money.CreateInDollars(99.99M));
 
         sut.AssertInvariantsWasCalled = false;
-
+        sut.AssertOrderCanChangeWasCalled = false;
+        
         // ************ ACT ************
         
         sut.RemoveLine(lineId);
@@ -127,6 +130,9 @@ public class SalesOrderTests
 
         Assert.Empty(sut.SalesOrderLines);
         Assert.True(sut.AssertInvariantsWasCalled);
+        Assert.True(sut.AssertOrderCanChangeWasCalled);
+        
+        
     }
 
     [Fact]
@@ -146,7 +152,7 @@ public class SalesOrderTests
     }
 
     [Fact]
-    public void UpdateLine_UpdatesLine_AssertsInvariants()
+    public void UpdateLine_UpdatesLine_AssertsInvariants_AssertsOrderCanChange()
     {
         // ************ ARRANGE ************
 
@@ -157,6 +163,7 @@ public class SalesOrderTests
             Money.CreateInDollars(0.11M));
 
         sut.AssertInvariantsWasCalled = false;
+        sut.AssertOrderCanChangeWasCalled = false;
 
         // ************ ACT ************
         
@@ -172,6 +179,7 @@ public class SalesOrderTests
         Assert.Equal(0.16M, result.UnitPrice);
 
         Assert.True(sut.AssertInvariantsWasCalled);
+        Assert.True(sut.AssertOrderCanChangeWasCalled);
     }
 
     [Fact]
@@ -184,6 +192,7 @@ public class SalesOrderTests
         // ************ ARRANGE ************
 
         SalesOrder sut = CreateSut();
+        sut.AssertOrderCanChangeWasCalled = false;
 
         // ************ ACT ************
 
@@ -194,6 +203,7 @@ public class SalesOrderTests
 
         Assert.NotNull(result);
         Assert.IsType<LineNotFoundException>(result);
+        Assert.True(sut.AssertOrderCanChangeWasCalled);
 
     }
 
@@ -322,7 +332,7 @@ public class SalesOrderTests
     {
         // ************ ARRANGE ************
 
-        SalesOrder? sut = CreateSut();
+        SalesOrder sut = CreateSut();
 
         AddLine(product1);
 
@@ -351,5 +361,36 @@ public class SalesOrderTests
         }
 
         #endregion
+    }
+
+    [Theory]
+    [InlineData(true, true)]
+    [InlineData(false, false)]
+    public void AssertOrderCanChange_WhenOrderIsOrdered_ThrowsException(
+        bool isOrdered, bool shouldThrow)
+    {
+        // ************ ARRANGE ************
+
+        SalesOrder sut = CreateSut();
+        
+        /*
+         * We don't want one test to depends on methods that are the concern of a different test. this is Orthogonality.
+         * If we were to do that, then we would have two test failing for the same reason and it would make it harder to
+         * debug.
+         *
+         * Here, I am forcing set a property to avoid calling the method, because that method is not been tested here.
+         */
+        
+        sut.GetType().GetProperty("IsOrdered")!.SetValue(sut, true);
+        
+        // ************ ACT ************
+
+        var result = Record.Exception(() => sut.AssertOrderCanChange());
+        
+        // ************ ASSERT ************
+
+        Assert.NotNull(result);
+        Assert.IsType<DomainException>(result);
+        Assert.Equal("Sales order cant be changed because has already been ordered", result.Message);
     }
 }
