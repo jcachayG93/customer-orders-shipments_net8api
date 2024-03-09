@@ -22,7 +22,7 @@ Feel free to clone this project and experiment with it. Ask me questions by [Lin
 - [x] feature 5: As a sales person, I want to mark an order as ordered so It can be shipped. (30 min)
 - [x] feature 6: As a sales person, I want a packing list to be automatically created when I mark an order as ordered. (3 hrs)
 - [x] feature 7: As a sales person, I want the order be be freezed once ordered, so I know it wont change after I sent it to a customer.
-- [ ] feature 8: As a shipping manager, I need to see a list of packing lists.
+- [x] feature 8: As a shipping manager, I need to see a list of packing lists.
 - [ ] feature 9: As a shipping manager, I need to see the contents of the packing lists.
 - [ ] feature 10: Create UI
 - [ ] feature 11: Create design system
