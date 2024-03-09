@@ -25,17 +25,17 @@ public class PackingListGetList_UseCaseTests
         PackingList[] packingLists = Enumerable.Range(0, 10)
             .Select(i => CreatePackingList()).ToArray();
 
-        var applicationFactory = CreateApplicationFactory();
+        CustomApplicationFactory applicationFactory = CreateApplicationFactory();
         
         applicationFactory.AddEntitiesToDatabase(packingLists);
 
-        var client = applicationFactory.CreateClient();
+        HttpClient client = applicationFactory.CreateClient();
 
         string endpoint = "api/packing-lists";
 
         // ************ ACT ************
 
-        var response = await client.GetFromJsonAsync<IEnumerable<PackingListLookup>>
+        IEnumerable<PackingListLookup>? response = await client.GetFromJsonAsync<IEnumerable<PackingListLookup>>
             (endpoint);
 
         // ************ ASSERT ************
@@ -43,7 +43,7 @@ public class PackingListGetList_UseCaseTests
         Assert.NotNull(response);
         Assert.Equal(10, response.Count());
 
-        foreach (var packingListFromResponse in response!)
+        foreach (PackingListLookup packingListFromResponse in response!)
         {
             Assert.Contains(packingLists, x =>
                 x.OrderId == packingListFromResponse.OrderId);
