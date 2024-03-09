@@ -8,7 +8,7 @@ public class DiagnosticsController : ControllerBase
 {
     [HttpGet]
     [Route("ping")]
-    public async Task<ActionResult<string>> Ping()
+    public ActionResult<string> Ping()
     {
         return Ok("Pong");
     }

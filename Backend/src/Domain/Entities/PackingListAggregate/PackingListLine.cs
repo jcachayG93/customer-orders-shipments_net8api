@@ -7,7 +7,7 @@ public class PackingListLine
 {
     public Guid Id { get; private set; }
 
-    public string Product { get; private set; }
+    public string Product { get; private set; } = null!;
 
     public int Quantity { get; private set; }
 

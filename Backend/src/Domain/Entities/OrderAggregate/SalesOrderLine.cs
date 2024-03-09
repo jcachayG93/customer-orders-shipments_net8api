@@ -28,7 +28,7 @@ public class SalesOrderLine
      * this is not perfect but is simple. The only one that should change the SalesOrderLine values is the SalesOrder aggregate,
      * so we expect developers working in the domain project to be knowledgeable about Domain Driven Design tactics.
      */
-    public string Product { get; internal set; }
+    public string Product { get; internal set; } = null!;
 
     public int Quantity { get; internal set; }
 

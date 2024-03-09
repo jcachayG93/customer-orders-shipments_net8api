@@ -5,7 +5,7 @@ namespace Domain.Tests.Common;
 public class EntityTests
 {
     [Fact]
-    public async Task CanAddDomainEvents()
+    public void CanAddDomainEvents()
     {
         // ************ ARRANGE ************
 

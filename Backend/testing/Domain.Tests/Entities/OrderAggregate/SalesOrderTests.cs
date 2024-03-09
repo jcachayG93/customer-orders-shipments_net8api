@@ -52,7 +52,7 @@ public class SalesOrderTests
 
         // ************ ASSERT ************
 
-        Assert.Equal(1, sut.SalesOrderLines.Count());
+        Assert.Single(sut.SalesOrderLines);
 
         Assert.Contains(sut.SalesOrderLines, l =>
             l.Id == lineId.Value
